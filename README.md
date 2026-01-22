@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rafael's Portfolio
 
-## Getting Started
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-blue)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC)](https://tailwindcss.com/)
 
-First, run the development server:
+A professional portfolio website for Rafael, an Operations Business Manager specializing in System Integration, Business Process Automation, and Data Processing & Analysis. This site showcases expertise through interactive project demonstrations and seamless booking integration.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Features
+
+- **Responsive Design**: Optimized for all devices with a modern dark mode theme
+- **Project Showcase**: MDX-powered blog-style project presentations
+- **Booking Integration**: Direct Cal.com integration for consultation scheduling
+- **Performance Optimized**: Built with Next.js 16 for fast loading and SEO
+- **Accessible UI**: Using Shadcn UI components for consistent, accessible design
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 16 with App Router
+- **Frontend**: React 19, TypeScript
+- **Styling**: Tailwind CSS 4, Shadcn UI
+- **Content**: MDX for rich project documentation
+- **Deployment**: Vercel
+- **Booking**: Cal.com integration
+
+## 📋 Prerequisites
+
+- Node.js 18 or higher
+- npm, yarn, pnpm, or bun
+
+## 🏁 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/rafael-portfolio-v2.git
+   cd rafael-portfolio-v2
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env.local` file and add your Cal.com API key if needed.
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
+
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000) to view the portfolio.
+
+## 📁 Project Structure
+
+```
+rafael-portfolio-v2/
+├── app/                    # Next.js app directory
+│   ├── page.tsx           # Landing page
+│   ├── layout.tsx         # Root layout
+│   └── projects/          # Project pages
+├── components/            # Reusable UI components
+│   ├── ui/               # Shadcn UI components
+│   ├── hero.tsx          # Hero section
+│   ├── services.tsx      # Services showcase
+│   └── ...
+├── content/               # MDX content
+│   └── projects/         # Project write-ups
+├── lib/                   # Utility functions
+│   ├── mdx.ts            # MDX processing
+│   └── utils.ts          # Helper functions
+└── public/                # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is optimized for deployment on Vercel:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Connect your repository** to Vercel
+2. **Configure environment variables** in Vercel dashboard
+3. **Deploy** with one click
 
-## Learn More
+For manual deployment:
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📞 Contact
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Email**: [your-email@example.com](mailto:your-email@example.com)
+- **LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
+- **Booking**: Schedule a call via the integrated Cal.com widget
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
+This project is open source and available under the [MIT License](LICENSE).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ using Next.js and modern web technologies.

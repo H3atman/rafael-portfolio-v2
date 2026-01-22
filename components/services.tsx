@@ -11,13 +11,13 @@ const services = [
     title: "System Integration",
     icon: Link01Icon,
     description:
-      "Connect disparate systems and platforms for seamless data flow. I architect solutions that ensure your CRM, ERP, and marketing tools speak the same language.",
+      "Connect different systems and platforms for seamless data flow. I architect solutions that ensure your CRM and marketing tools speak the same language.",
   },
   {
     title: "Business Process Automation",
     icon: WorkflowSquare10Icon,
     description:
-      "Streamline repetitive tasks and workflows to increase efficiency. From simple Zapier connections to complex Make.com scenarios, I automate the busy work.",
+      "Streamline repetitive tasks and workflows to increase efficiency. From simple Zapier connections to complex Make.com scenarios and n8n workflows, I automate the busy work.",
   },
   {
     title: "Data Processing & Analysis",
