@@ -28,7 +28,7 @@ export function CTASection() {
                   strokeWidth={2}
                   className="w-5 h-5 mr-2"
                 />
-                Book a Consultation
+                Book a Call
               </Link>
             </Button>
             <Button
@@ -37,7 +37,7 @@ export function CTASection() {
               className="w-full sm:w-auto h-12 px-8 text-base bg-background"
               asChild
             >
-              <Link href="mailto:contact@example.com">
+              <Link href="mailto:rafael@rvcodes.com">
                 <HugeiconsIcon
                   icon={MailIcon}
                   strokeWidth={2}
