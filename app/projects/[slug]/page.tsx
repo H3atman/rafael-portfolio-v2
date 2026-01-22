@@ -12,6 +12,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { useMDXComponents } from "@/mdx-components";
+import { config } from "@/lib/config";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -149,7 +150,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </p>
               </div>
               <Button asChild>
-                <Link href="https://cal.com/PLACEHOLDER_CAL_LINK" target="_blank">
+                <Link href={config.bookingUrl} target="_blank">
                   Book a Consultation
                 </Link>
               </Button>

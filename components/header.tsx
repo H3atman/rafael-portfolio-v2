@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { config } from "@/lib/config";
 
 export function Header() {
   return (
@@ -35,7 +36,7 @@ export function Header() {
             Projects
           </Link>
           <Button asChild size="sm">
-            <Link href="https://cal.com/PLACEHOLDER_CAL_LINK" target="_blank">
+            <Link href={config.bookingUrl} target="_blank">
               Book a Call
             </Link>
           </Button>

@@ -5,6 +5,7 @@ import {
   ArrowRight01Icon,
   Calendar01Icon,
 } from "@hugeicons/core-free-icons";
+import { config } from "@/lib/config";
 
 export function Hero() {
   return (
@@ -42,7 +43,7 @@ export function Hero() {
             size="lg"
             className="h-12 px-8 text-base shadow-lg shadow-primary/20"
           >
-            <Link href="https://cal.com/PLACEHOLDER_CAL_LINK" target="_blank">
+            <Link href={config.bookingUrl} target="_blank">
               <HugeiconsIcon
                 icon={Calendar01Icon}
                 strokeWidth={2}

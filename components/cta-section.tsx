@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Calendar01Icon, MailIcon } from "@hugeicons/core-free-icons";
+import { config } from "@/lib/config";
 
 export function CTASection() {
   return (
@@ -22,7 +23,7 @@ export function CTASection() {
               className="w-full sm:w-auto h-12 px-8 text-base"
               asChild
             >
-              <Link href="https://cal.com/PLACEHOLDER_CAL_LINK" target="_blank">
+              <Link href={config.bookingUrl} target="_blank">
                 <HugeiconsIcon
                   icon={Calendar01Icon}
                   strokeWidth={2}
