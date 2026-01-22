@@ -80,7 +80,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
             {project.frontmatter.description}
           </p>
         </CardContent>
-        <CardFooter className="pt-0 pb-6 text-primary text-sm font-medium flex items-center">
+        <CardFooter className="text-primary text-sm font-medium flex items-center">
           Read Case Study{" "}
           <HugeiconsIcon
             icon={ArrowRight01Icon}
