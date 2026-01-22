@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -35,7 +37,10 @@ export const metadata: Metadata = {
     "Zapier",
     "Power BI",
   ],
-  authors: [{ name: "Rafael" }],
+  authors: [{ name: "Rafael Villanueva" }],
+  icons: {
+    icon: "/favicon.ico",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -66,7 +71,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        {children}
+        <Header />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
       </body>
     </html>
   );

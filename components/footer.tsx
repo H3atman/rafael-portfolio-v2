@@ -1,16 +1,27 @@
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { GithubIcon, Linkedin01Icon } from "@hugeicons/core-free-icons";
+import Image from "next/image";
 
 export function Footer() {
   return (
     <footer className="border-t py-12 px-6">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-center md:text-left">
-          <div className="text-lg font-bold mb-2">Rafael Portfolio</div>
-          <p className="text-sm text-muted-foreground">
-            Operations Business Manager & Automation Specialist
-          </p>
+        <div className="flex items-center gap-3 text-center md:text-left">
+          <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-muted">
+            <Image
+              src="/logo.png"
+              alt="Rafael Logo"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <div className="text-lg font-bold mb-1">Rafael Portfolio</div>
+            <p className="text-sm text-muted-foreground">
+              Operations Business Manager & Automation Specialist
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
