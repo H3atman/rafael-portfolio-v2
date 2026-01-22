@@ -26,7 +26,7 @@ export function Footer() {
 
         <div className="flex items-center gap-4">
           <Link
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/villanueva-rafael/"
             target="_blank"
             className="p-2 text-muted-foreground hover:text-primary transition-colors"
           >
@@ -38,7 +38,7 @@ export function Footer() {
             <span className="sr-only">LinkedIn</span>
           </Link>
           <Link
-            href="https://github.com"
+            href="https://github.com/H3atman"
             target="_blank"
             className="p-2 text-muted-foreground hover:text-primary transition-colors"
           >
