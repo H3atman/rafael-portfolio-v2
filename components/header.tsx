@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { config } from "@/lib/config";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   return (
@@ -35,6 +36,7 @@ export function Header() {
           >
             Projects
           </Link>
+          <ThemeToggle />
           <Button asChild size="sm">
             <Link href={config.bookingUrl} target="_blank">
               Book a Call
