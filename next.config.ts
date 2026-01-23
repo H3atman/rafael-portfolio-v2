@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@lobehub/icons'],
 };
 
+
+
 const withMDX = createMDX({
   extension: /\.mdx?$/,
 });

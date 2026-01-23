@@ -1,0 +1,128 @@
+---
+title: "CrimeStat API"
+description: "Built a high-performance FastAPI backend that reduced crime data processing time from hours to minutes, now serving regional government operations."
+date: "2025-08-10"
+tags: ["FastAPI", "Polars", "Docker", "Data Processing", "Government"]
+thumbnail: "/projects/crimestat_api_thumbnail.png"
+---
+
+## Project Overview
+
+As a Crime Statistician for a regional government agency, I was responsible for processing and categorizing crime statistics data in regional level. What started as a personal Python script to automate tedious Excel work evolved into a full-stack application now deployed on a VPS and serving daily operations.
+
+<Callout type="info">
+  **Live Demo**: You can explore the CrimeStat API web application demo here: [https://crime-stat-webapp-demo.vercel.app/](https://crime-stat-webapp-demo.vercel.app/)
+</Callout>
+
+
+
+
+## The Challenge
+
+Crime data arrives in various Excel formats from different stations and needs to be or extracted in CIRAS as as Excel format:
+- Standardized to a consistent format
+- Classified according to Philippine legal codes (Revised Penal Code, Special Laws)
+- Categorized into Index Crimes (8 Focus Crimes) vs Non-Index Crimes
+- Merged and exported for reporting
+
+**The manual process was brutal:**
+- Weekly data: 1-2 hours of manual processing
+- Monthly data: 3-4 hours
+- Yearly data: 6-8 hours of repetitive Excel work
+
+This wasn't just slow—it was error-prone and soul-crushing.
+
+## Solution: From Script to Production API
+
+### Phase 1: Python Script
+I built a standalone Python script using Pandas to automate the classification logic. It worked, but sharing it with colleagues meant dealing with Python installations and dependencies.
+
+### Phase 2: FastAPI Backend
+I wrapped the logic in a FastAPI application with proper endpoints, file upload handling, and Excel export. Now anyone could use it through a simple web interface.
+
+### Phase 3: Performance Optimization
+Pandas struggled with larger datasets. I migrated to **Polars**, a Rust-based DataFrame library that processes data significantly faster with lower memory usage. Chunked processing handles files of any size.
+
+### Phase 4: Production Deployment
+Dockerized the application and deployed it to my VPS. Added a Next.js frontend for a clean user interface. The system now handles hundreds of records daily across the region.
+
+## Architecture
+
+<Image 
+  src="/projects/crimestat-api.webp" 
+  alt="CrimeStat API Dashboard" 
+  caption="Image generated through gemini nanobanana" 
+/>
+
+**Processing Flow:**
+1. Upload CSV/XLSX files through the API
+2. Polars reads data in chunks (100k rows per chunk)
+3. Classification engine matches offenses to categories
+4. Multiple files merged (vertical or horizontal)
+5. Export as formatted Excel with proper table styling
+
+## Key Features
+
+- **Chunked Processing** - Handles large datasets without memory issues
+- **Hot-reload Classifications** - Update crime categories without restart
+- **Multiple Merge Modes** - Stack files vertically or join horizontally
+- **Automatic Cleanup** - Temporary files removed after processing
+- **Health Monitoring** - Endpoint for checking source file integrity
+- **Docker Deployment** - 4 Uvicorn workers for concurrent requests
+
+## Results
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Data Volume</th>
+        <th className="p-4 font-semibold">Before</th>
+        <th className="p-4 font-semibold">After</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Weekly</td>
+        <td className="p-4 text-muted-foreground">1-2 hours</td>
+        <td className="p-4 font-bold text-foreground text-green-600">&lt; 3 seconds</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Monthly</td>
+        <td className="p-4 text-muted-foreground">3-4 hours</td>
+        <td className="p-4 font-bold text-foreground text-green-600">&lt; 1 minute</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Yearly</td>
+        <td className="p-4 text-muted-foreground">6-8 hours</td>
+        <td className="p-4 font-bold text-foreground text-green-600">&lt; 5 minutes</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+**Beyond time savings:**
+- **Zero manual classification errors**
+- **Consistent output format** every time
+- **Self-service** - colleagues can process their own data
+- **Audit trail** - logged processing for accountability
+
+## Technologies Used
+
+- **FastAPI** - Modern async Python web framework
+- **Polars** - High-performance DataFrame library (Rust-based)
+- **Uvicorn** - ASGI server with worker support
+- **Docker** - Containerized deployment
+- **Next.js** - Frontend interface (separate repo)
+- **VPS** - Self-hosted on personal server
+
+## Lessons Learned
+
+1. **Start simple, iterate** - The first version was a 100-line script. Production version is 500+ lines with proper error handling, but the core logic remained the same.
+
+2. **Polars over Pandas** - For data processing tasks, Polars is significantly faster. The migration was straightforward and worth every minute.
+
+3. **Docker everything** - Deploying Python apps with dependencies is painful. Docker made deployment reproducible and simple.
+
+4. **Build for yourself first** - This started as a tool to make my own job easier. That's why it actually works—I'm the primary user and I feel every friction point.

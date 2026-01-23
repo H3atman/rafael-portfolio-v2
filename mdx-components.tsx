@@ -41,6 +41,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // Custom image with Next.js optimization
     img: (props) => (
       <Image
+        width={1200}
+        height={630}
         sizes="100vw"
         style={{ width: "100%", height: "auto" }}
         className="rounded-lg my-6"
@@ -77,6 +79,35 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     li: ({ children }) => (
       <li className="text-muted-foreground leading-7">{children}</li>
+    ),
+
+    // Custom table
+    table: ({ children }) => (
+      <div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+        <table className="w-full border-collapse text-sm">
+          {children}
+        </table>
+      </div>
+    ),
+    thead: ({ children }) => (
+      <thead className="bg-muted/50 transition-colors uppercase text-xs font-bold tracking-wider text-muted-foreground border-b border-border">
+        {children}
+      </thead>
+    ),
+    tr: ({ children }) => (
+      <tr className="border-b border-border last:border-0 transition-colors hover:bg-muted/20">
+        {children}
+      </tr>
+    ),
+    th: ({ children }) => (
+      <th className="px-4 py-4 text-left font-semibold text-foreground [&[align=center]]:text-center [&[align=right]]:text-right">
+        {children}
+      </th>
+    ),
+    td: ({ children }) => (
+      <td className="px-4 py-4 text-left text-muted-foreground [&[align=center]]:text-center [&[align=right]]:text-right">
+        {children}
+      </td>
     ),
 
     // Custom horizontal rule
