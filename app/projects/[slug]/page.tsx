@@ -13,6 +13,7 @@ import {
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { useMDXComponents } from "@/mdx-components";
 import { config } from "@/lib/config";
+import { siteConfig, personSchema, getAbsoluteUrl } from "@/lib/seo-config";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -39,17 +40,33 @@ export async function generateMetadata({
     };
   }
 
+  const canonicalUrl = `/projects/${slug}`;
+  const thumbnailUrl = project.frontmatter.thumbnail
+    ? getAbsoluteUrl(project.frontmatter.thumbnail)
+    : undefined;
+
   return {
     title: project.frontmatter.title,
     description: project.frontmatter.description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: project.frontmatter.title,
       description: project.frontmatter.description,
       type: "article",
+      url: canonicalUrl,
       publishedTime: project.frontmatter.date,
-      images: project.frontmatter.thumbnail
-        ? [{ url: project.frontmatter.thumbnail }]
-        : [],
+      modifiedTime: project.frontmatter.date,
+      authors: [siteConfig.author.name],
+      tags: project.frontmatter.tags,
+      images: thumbnailUrl ? [{ url: thumbnailUrl }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.frontmatter.title,
+      description: project.frontmatter.description,
+      images: thumbnailUrl ? [thumbnailUrl] : [],
     },
   };
 }
@@ -65,8 +82,30 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   // Get custom MDX components
   const components = useMDXComponents({});
 
+  // Structured data for the article
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: project.frontmatter.title,
+    description: project.frontmatter.description,
+    author: personSchema,
+    datePublished: project.frontmatter.date,
+    dateModified: project.frontmatter.date,
+    image: project.frontmatter.thumbnail
+      ? getAbsoluteUrl(project.frontmatter.thumbnail)
+      : undefined,
+    publisher: personSchema,
+    keywords: project.frontmatter.tags.join(', '),
+  };
+
   return (
     <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+
       {/* Header */}
       <article className="py-16 lg:py-24 px-6">
         <div className="container mx-auto max-w-4xl">
