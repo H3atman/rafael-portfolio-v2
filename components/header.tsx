@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -14,7 +16,7 @@ export function Header() {
               src="/logo.png"
               alt="RVCodes Logo"
               fill
-              className="object-contain"
+              className="object-contain brightness-0 dark:brightness-0"
               priority
             />
           </div>
