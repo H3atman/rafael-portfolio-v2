@@ -190,7 +190,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </div>
               <Button asChild>
                 <Link href={config.bookingUrl} target="_blank">
-                  Book a Consultation
+                  Book a Call
                 </Link>
               </Button>
             </div>
