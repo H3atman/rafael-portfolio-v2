@@ -11,6 +11,7 @@ export interface ProjectFrontmatter {
     date: string;
     tags: string[];
     thumbnail: string;
+    hidden?: boolean;
 }
 
 export interface Project {
@@ -47,7 +48,8 @@ export function getAllProjects(): ProjectMeta[] {
                 frontmatter: data as ProjectFrontmatter,
                 readingTime: readingTime(content).text,
             };
-        });
+        })
+        .filter((project) => !project.frontmatter.hidden);
 
     // Sort by date (newest first)
     return projects.sort((a, b) =>
