@@ -1,0 +1,39 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-automated-reporting-dashboard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <pattern id="grid-automated-reporting-dashboard" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+    <filter id="glow-automated-reporting-dashboard">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg-automated-reporting-dashboard)" />
+  <rect width="100%" height="100%" fill="url(#grid-automated-reporting-dashboard)" />
+
+  <!-- Abstract Shapes -->
+  <circle cx="10%" cy="10%" r="300" fill="#3B82F6" opacity="0.1" filter="url(#glow-automated-reporting-dashboard)" />
+  <circle cx="90%" cy="90%" r="400" fill="#8B5CF6" opacity="0.1" filter="url(#glow-automated-reporting-dashboard)" />
+  
+  <rect x="850" y="100" width="200" height="200" rx="20" fill="none" stroke="#4ADE80" stroke-width="2" opacity="0.2" transform="rotate(15 950 200)" />
+  <rect x="150" y="550" width="150" height="150" rx="20" fill="none" stroke="#3B82F6" stroke-width="2" opacity="0.2" transform="rotate(-15 225 625)" />
+
+  <!-- Decorative Line -->
+  <line x1="200" y1="700" x2="1000" y2="700" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+  <circle cx="200" cy="700" r="4" fill="#4ADE80" />
+  <circle cx="1000" cy="700" r="4" fill="#4ADE80" />
+
+  <!-- Text Content -->
+  <text x="50%" y="45%" font-family="Arial, sans-serif" font-weight="bold" font-size="80" fill="white" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 4px 12px rgba(0,0,0,0.3)">Automated Reporting</text>
+  <text x="50%" y="58%" font-family="Arial, sans-serif" font-size="50" fill="#4ADE80" text-anchor="middle" dominant-baseline="middle" letter-spacing="4">DASHBOARD</text>
+  
+</svg>
