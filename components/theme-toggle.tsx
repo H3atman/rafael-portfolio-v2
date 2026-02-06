@@ -6,7 +6,7 @@ import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
   const [mounted, setMounted] = React.useState(false)
-  const { theme, setTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
 
   React.useEffect(() => {
     setMounted(true)
@@ -14,7 +14,7 @@ export function ThemeToggle() {
 
   return (
     <Toggle
-      pressed={mounted ? theme === "dark" : false}
+      pressed={mounted ? resolvedTheme === "dark" : false}
       onPressedChange={(pressed) => setTheme(pressed ? "dark" : "light")}
       aria-label="Toggle theme"
       className="size-8"

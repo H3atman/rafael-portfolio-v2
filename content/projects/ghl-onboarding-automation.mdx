@@ -1,0 +1,223 @@
+---
+title: "GoHighLevel Onboarding Automation"
+description: "Built a modular automation system that reduced client sub-account setup from 2 weeks to 10 minutes, processing 15 workflows with built-in error handling."
+date: "2025-09-02"
+tags: ["GoHighLevel", "Automation", "API Integration", "OAuth2", "Workflow"]
+thumbnail: "/projects/ghl-onboarding-thumbnail.png"
+---
+
+## Project Overview
+
+A GoHighLevel (GHL) SaaS agency needed to dramatically speed up their client onboarding process. What was taking 2 weeks of manual "Done For You" configuration now runs in under 10 minutes through a fully automated workflow system I designed and built.
+
+<Callout type="info">
+  **Impact**: Reduced client onboarding time from **2 weeks → 10 minutes** — a 99.5% reduction in setup time.
+</Callout>
+
+## The Challenge
+
+While GoHighLevel's Agency Plan allows owners to spin up sub-accounts from preconfigured snapshots, each new client still requires extensive manual configuration:
+
+- **Domain Setup** — Custom domain and DNS configuration
+- **Email Infrastructure** — Dedicated email domain with proper authentication
+- **Business Information** — Company details and settings
+- **A2P Registration** — SMS compliance and phone number provisioning
+- **Custom Values** — Client-specific variables and configurations
+
+**The manual process was brutal:**
+- Each client required 2 weeks of back-and-forth setup
+- Multiple team members involved across different steps
+- High risk of configuration errors and missed steps
+- Bottleneck that limited client acquisition capacity
+
+## Solution: From Monolith to Modular System
+
+### Phase 1: Research & Mapping
+
+I dove deep into the client's documentation and mapped every single step of their onboarding process from start to finish. This revealed the full scope: dozens of configuration steps across multiple GHL systems.
+
+### Phase 2: API Integration & Reverse Engineering
+
+The official GHL API covered most functionality, but not everything. I implemented:
+- **OAuth2 Authentication** — Secure API access for the agency account
+- **Official API Integration** — All documented endpoints for sub-account management
+- **Reverse-Engineered Backend APIs** — Discovered and integrated undocumented endpoints to automate steps that weren't publicly exposed
+
+### Phase 3: Version 1 — The Monolith
+
+<Image 
+  src="/projects/ghl-workflow-v1.png" 
+  alt="GoHighLevel Onboarding Workflow Version 1" 
+  caption="Version 1: One massive workflow handling the entire onboarding process" 
+/>
+
+The first version was one massive workflow containing every step to fully configure a client's sub-account. It worked—cutting onboarding from 2 weeks to just 10 minutes—but had a critical flaw:
+
+**The system was brittle.** If one node failed, the entire workflow broke. I'd have to manually pin data from the previous node just to continue the process. Debugging was a nightmare.
+
+### Phase 4: Modular Architecture
+
+I rebuilt the system following software engineering principles—breaking the monolith into independent, reusable modules:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <Image 
+    src="/projects/ghl-workflow-modules.png" 
+    alt="Modular workflow architecture 1" 
+  />
+  <Image 
+    src="/projects/ghl-workflow-modules-21.png" 
+    alt="Modular workflow architecture 2" 
+  />
+</div>
+<p className="mt-3 text-center text-sm text-muted-foreground">Version 2: 15 independent modules with error handling</p>
+<br />
+
+**Key architectural improvements:**
+- **15 Independent Modules** — Each handles a specific configuration domain
+- **13 Core Automations** — The essential workflows that run for every client
+- **Error Catchers** — Every module has built-in error detection and notification
+- **Rerunnable Steps** — If a module fails, I can rerun just that step group and the system continues automatically
+
+## System Architecture
+
+The modular system consists of these workflow groups:
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">#</th>
+        <th className="p-4 font-semibold">Module</th>
+        <th className="p-4 font-semibold">Function</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">1</td>
+        <td className="p-4 font-medium">Get Location ID</td>
+        <td className="p-4 text-muted-foreground">Retrieve sub-account identifier from GHL</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">2</td>
+        <td className="p-4 font-medium">GoDaddy Configuration</td>
+        <td className="p-4 text-muted-foreground">DNS records and domain routing setup</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">3</td>
+        <td className="p-4 font-medium">Setup Domain</td>
+        <td className="p-4 text-muted-foreground">Custom domain configuration in GHL</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">4</td>
+        <td className="p-4 font-medium">Setup Dedicated Email Domain</td>
+        <td className="p-4 text-muted-foreground">Email authentication (SPF, DKIM, DMARC)</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">5</td>
+        <td className="p-4 font-medium">Process Business Information</td>
+        <td className="p-4 text-muted-foreground">Company details and branding setup</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">6</td>
+        <td className="p-4 font-medium">Process Rep. Info & Notifications</td>
+        <td className="p-4 text-muted-foreground">Team member setup and alert configuration</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">7</td>
+        <td className="p-4 font-medium">Bypass Sub-Account 2FA</td>
+        <td className="p-4 text-muted-foreground">Automated security configuration</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">8</td>
+        <td className="p-4 font-medium">Purchase Phone Number Loop</td>
+        <td className="p-4 text-muted-foreground">Automatic phone number provisioning</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">8.1</td>
+        <td className="p-4 font-medium">Verify Email Domain</td>
+        <td className="p-4 text-muted-foreground">Public domain validation checks</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">9</td>
+        <td className="p-4 font-medium">Start A2P</td>
+        <td className="p-4 text-muted-foreground">SMS compliance registration process</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">10</td>
+        <td className="p-4 font-medium">Process Custom Values</td>
+        <td className="p-4 text-muted-foreground">Client-specific variable configuration</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">11</td>
+        <td className="p-4 font-medium">Train AI Bot</td>
+        <td className="p-4 text-muted-foreground">Conversation AI setup and training</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4">12</td>
+        <td className="p-4 font-medium">Process Workflows</td>
+        <td className="p-4 text-muted-foreground">Import and configure automation templates</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+**Supporting modules:** Error Catcher (for each workflow) and Update Proper Rebilling for subscription management.
+
+## Results
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Metric</th>
+        <th className="p-4 font-semibold">Before</th>
+        <th className="p-4 font-semibold">After</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Onboarding Time</td>
+        <td className="p-4 text-muted-foreground">2 weeks</td>
+        <td className="p-4 font-bold text-green-600">&lt; 10 minutes</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Manual Steps</td>
+        <td className="p-4 text-muted-foreground">50+ configuration tasks</td>
+        <td className="p-4 font-bold text-green-600">1 trigger click</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Error Recovery</td>
+        <td className="p-4 text-muted-foreground">Start from scratch</td>
+        <td className="p-4 font-bold text-green-600">Rerun failed module only</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Debugging</td>
+        <td className="p-4 text-muted-foreground">Manual log inspection</td>
+        <td className="p-4 font-bold text-green-600">Automatic error alerts</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+**Additional benefits:**
+- **Scalability** — Can onboard multiple clients simultaneously
+- **Consistency** — Every client gets identical, error-free configuration
+- **Self-healing** — Modular design allows partial reruns without data loss
+- **Visibility** — Error catchers provide instant notification of any issues
+
+## Technologies & Integrations
+
+- **GoHighLevel API** — Official REST API with OAuth2 authentication
+- **GHL Backend APIs** — Reverse-engineered endpoints for advanced automation
+- **GoDaddy API** — Automated DNS configuration
+- **Sub-Workflows** — Inter-module communication and external triggers
+
+## Lessons Learned
+
+1. **Start monolithic, then modularize** — The first version proved the concept. Once I understood the full system, breaking it into modules was much clearer.
+
+2. **Error handling is not optional** — Every module needs its own error catcher. When you're automating 50+ steps, silent failures are catastrophic.
+
+3. **Reverse engineering is sometimes necessary** — Official APIs don't always cover everything. Understanding HTTP traffic and API patterns unlocked critical functionality.
+
+4. **Think like a software architect** — Applying software engineering principles (modularity, separation of concerns, idempotency) to no-code workflows dramatically improved reliability.

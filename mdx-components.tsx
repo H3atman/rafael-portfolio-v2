@@ -1,7 +1,8 @@
 import type { MDXComponents } from "mdx/types";
-import Image, { ImageProps } from "next/image";
+import { ImageProps } from "next/image";
 import Link from "next/link";
 import { MDXImage, Callout, Video, YouTubeVideo } from "@/components/mdx";
+import { ZoomableImage } from "@/components/ui/zoomable-image";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -40,7 +41,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 
     // Custom image with Next.js optimization
     img: (props) => (
-      <Image
+      <ZoomableImage
         width={1200}
         height={630}
         sizes="100vw"

@@ -1,4 +1,5 @@
-import Image, { ImageProps } from "next/image";
+import { ImageProps } from "next/image";
+import { ZoomableImage } from "@/components/ui/zoomable-image";
 import { cn } from "@/lib/utils";
 
 interface MDXImageProps extends Omit<ImageProps, "alt"> {
@@ -22,7 +23,7 @@ export function MDXImage({
           className
         )}
       >
-        <Image
+        <ZoomableImage
           src={src}
           alt={alt}
           width={1200}

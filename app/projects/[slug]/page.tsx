@@ -11,7 +11,7 @@ import {
   Clock01Icon,
 } from "@hugeicons/core-free-icons";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { useMDXComponents } from "@/mdx-components";
+import { useMDXComponents as getMDXComponents } from "@/mdx-components";
 import { config } from "@/lib/config";
 import { siteConfig, personSchema, getAbsoluteUrl } from "@/lib/seo-config";
 
@@ -80,7 +80,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   // Get custom MDX components
-  const components = useMDXComponents({});
+  const components = getMDXComponents({});
 
   // Structured data for the article
   const articleSchema = {
@@ -185,7 +185,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div>
                 <p className="font-medium mb-1">Interested in similar solutions?</p>
                 <p className="text-sm text-muted-foreground">
-                  Let's discuss how I can help with your project.
+                  Let&apos;s discuss how I can help with your project.
                 </p>
               </div>
               <Button asChild>
