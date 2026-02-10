@@ -47,6 +47,15 @@ const projects = [
         accent: '#34D399', // Emerald 400
         secondaryAccent: '#A7F3D0', // Emerald 200
         tertiaryAccent: '#6EE7B7' // Emerald 300
+    },
+    {
+        id: 'time-tracker',
+        title: 'Time Tracker',
+        subtitle: 'Time Tracking',
+        colors: ['#0C4A6E', '#0F172A'], // Sky 950 to Slate 900
+        accent: '#38BDF8', // Sky 400
+        secondaryAccent: '#22D3EE', // Cyan 400
+        tertiaryAccent: '#67E8F9' // Cyan 300
     }
 ];
 
