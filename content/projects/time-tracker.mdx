@@ -1,0 +1,217 @@
+---
+title: "Time Tracker"
+description: "Built a full-stack time tracking app for freelancers with real-time updates, guest authentication, and weekly/monthly progress tracking using Next.js 16 and Convex."
+date: "2026-02-05"
+tags: ["Next.js", "React", "TypeScript", "Convex", "Full-Stack"]
+thumbnail: "/projects/time-tracker.svg"
+---
+
+## Project Overview
+
+A modern, full-stack time tracking application designed for freelancers and consultants to efficiently track client work hours. Built from scratch with real-time data subscriptions, guest authentication, and visual progress tracking toward weekly and monthly goals.
+
+<Callout type="info">
+  **Approach**: This application was vibe coded from scratch in just 2 days — a complete end-to-end implementation covering frontend UI/UX, backend database architecture, and authentication systems.
+</Callout>
+
+**[Try the webapp →](https://time.rvcodes.com/)**
+
+## The Challenge
+
+Freelancers and consultants need a simple, fast way to track billable hours across multiple clients — without the overhead of creating accounts or configuring complex software. Existing tools are either too bloated or require paid subscriptions for basic functionality.
+
+**Requirements:**
+- Start tracking time instantly without sign-up friction
+- Manage entries across multiple clients with full CRUD operations
+- Visualize progress toward weekly (40h) and monthly (320h) goals
+- Work seamlessly on desktop and mobile
+
+## Solution: Real-Time Full-Stack App
+
+### Core Functionality
+
+- **Real-time Time Tracking** — Start/stop timer with live elapsed time display
+- **Client Management** — Autocomplete suggestions for recurring client names
+- **Entry Management** — Full CRUD operations with edit and delete capabilities
+- **Progress Tracking** — Weekly and monthly hour progress with visual indicators
+- **Undo Support** — Restore deleted entries with a single click
+
+### User Experience
+
+- **Guest Authentication** — Quick start without account creation via Convex Auth anonymous sessions
+- **Session Management** — 2-hour guest sessions with visual countdown
+- **Responsive Design** — Works seamlessly on desktop and mobile devices
+- **Dark/Light Mode** — Theme support via next-themes
+- **Toast Notifications** — Celebrations when reaching weekly goals
+
+### Security & Rate Limiting
+
+- **Device Fingerprinting** — Prevents abuse of guest sign-in
+- **Entry Limits** — 10 entries for guest users to manage resources
+- **Data Isolation** — User-specific data with proper authorization checks on every query and mutation
+
+## Technical Architecture
+
+### Frontend Stack
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Technology</th>
+        <th className="p-4 font-semibold">Purpose</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Next.js 16</td>
+        <td className="p-4 text-muted-foreground">React framework with App Router</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">React 19</td>
+        <td className="p-4 text-muted-foreground">UI library with latest features</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">TypeScript</td>
+        <td className="p-4 text-muted-foreground">Type-safe development</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Tailwind CSS 4</td>
+        <td className="p-4 text-muted-foreground">Utility-first styling</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">shadcn/ui + Radix UI</td>
+        <td className="p-4 text-muted-foreground">Accessible component primitives</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Zod</td>
+        <td className="p-4 text-muted-foreground">Runtime form validation</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### Backend Stack
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Technology</th>
+        <th className="p-4 font-semibold">Purpose</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Convex</td>
+        <td className="p-4 text-muted-foreground">Real-time database and serverless functions</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Convex Auth</td>
+        <td className="p-4 text-muted-foreground">Authentication with anonymous guest support</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Next.js API Routes</td>
+        <td className="p-4 text-muted-foreground">Server-side authentication handling</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### Database Schema
+
+```
+├── users (auth)           # User accounts
+├── rateLimits             # Rate limiting for guest sign-ins
+├── guestSessions          # 2-hour session tracking
+└── timeEntries            # Core time tracking data
+    ├── userId             # User association
+    ├── clientName         # Client identification
+    ├── task               # Task description
+    ├── notes              # Additional notes
+    ├── startTime/endTime  # Timestamps
+    ├── durationSeconds    # Calculated duration
+    ├── durationHours      # Decimal hours
+    └── isActive           # Tracking status
+```
+
+### Key Components
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Component</th>
+        <th className="p-4 font-semibold">Description</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">TimeTrackerForm</td>
+        <td className="p-4 text-muted-foreground">Main tracking interface with Zod validation</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">TimeEntriesList</td>
+        <td className="p-4 text-muted-foreground">Entry history with inline edit and delete</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">WeeklyHoursStatus</td>
+        <td className="p-4 text-muted-foreground">Weekly progress visualization toward 40h goal</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">MonthlyHoursStatus</td>
+        <td className="p-4 text-muted-foreground">Monthly progress visualization toward 320h target</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Authenticated</td>
+        <td className="p-4 text-muted-foreground">Auth wrapper with session management and countdown</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### Backend Functions
+
+- **Queries:** `list`, `getActive`, `getWeeklyHours`, `getMonthlyHours`, `getDistinctClientNames`
+- **Mutations:** `start`, `stop`, `update`, `remove`, `restore`
+
+## Results
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Category</th>
+        <th className="p-4 font-semibold">Skills Demonstrated</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Frontend</td>
+        <td className="p-4 text-muted-foreground">React 19, TypeScript, Tailwind CSS 4, Component Design, Form Validation, Accessibility</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Backend</td>
+        <td className="p-4 text-muted-foreground">Convex, Serverless Functions, Database Design, Authentication, Authorization</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Architecture</td>
+        <td className="p-4 text-muted-foreground">Full-Stack Development, API Design, State Management, Real-time Subscriptions</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">UX/UI</td>
+        <td className="p-4 text-muted-foreground">Responsive Design, Loading States, Error Handling, Dark/Light Mode</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Lessons Learned
+
+1. **Convex simplifies real-time dramatically** — Subscriptions just work out of the box. No WebSocket setup, no cache invalidation — the UI updates instantly when data changes.
+
+2. **Guest auth needs guardrails** — Anonymous access is great for reducing friction, but rate limiting and entry caps are essential to prevent abuse.
+
+3. **Visual progress drives engagement** — The weekly/monthly progress bars with color-coded status (blue, yellow, green) turned a utility app into something motivating to use.
+
+4. **Zod + TypeScript is a strong pairing** — Runtime validation on the frontend catches issues before they hit the backend, while TypeScript ensures type safety across the entire stack.
