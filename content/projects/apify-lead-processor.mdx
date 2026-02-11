@@ -56,14 +56,42 @@ Lead generation tools export data in various formats, and sales teams need this 
 
 The workflow handles comprehensive lead profiles with 30+ mapped fields:
 
-| Category | Fields |
-|----------|--------|
-| **Contact Info** | First name, last name, full name, email, personal email, phone, mobile number |
-| **Professional** | Job title, headline, seniority level, functional level, LinkedIn URL |
-| **Company** | Company name, domain, website, description, founded year, size |
-| **Location** | City, state, country, full address, postal code |
-| **Financial** | Annual revenue, total funding (raw and clean formats) |
-| **Tech Stack** | Company technologies, LinkedIn UID, keywords |
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Category</th>
+        <th className="p-4 font-semibold">Fields</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Contact Info</td>
+        <td className="p-4 text-muted-foreground">First name, last name, full name, email, personal email, phone, mobile number</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Professional</td>
+        <td className="p-4 text-muted-foreground">Job title, headline, seniority level, functional level, LinkedIn URL</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Company</td>
+        <td className="p-4 text-muted-foreground">Company name, domain, website, description, founded year, size</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Location</td>
+        <td className="p-4 text-muted-foreground">City, state, country, full address, postal code</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Financial</td>
+        <td className="p-4 text-muted-foreground">Annual revenue, total funding (raw and clean formats)</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Tech Stack</td>
+        <td className="p-4 text-muted-foreground">Company technologies, LinkedIn UID, keywords</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Key Features
 
