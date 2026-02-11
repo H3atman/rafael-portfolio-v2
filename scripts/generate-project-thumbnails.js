@@ -56,6 +56,24 @@ const projects = [
         accent: '#38BDF8', // Sky 400
         secondaryAccent: '#22D3EE', // Cyan 400
         tertiaryAccent: '#67E8F9' // Cyan 300
+    },
+    {
+        id: 'apify-lead-processor',
+        title: 'APIfy Lead',
+        subtitle: 'Processor',
+        colors: ['#1E3A5F', '#0F172A'], // Deep blue to Slate 900
+        accent: '#60A5FA', // Blue 400
+        secondaryAccent: '#38BDF8', // Sky 400
+        tertiaryAccent: '#818CF8' // Indigo 400
+    },
+    {
+        id: 'ai-icebreaker-generator',
+        title: 'AI Icebreaker',
+        subtitle: 'Generator',
+        colors: ['#2E1065', '#0F172A'], // Violet 950 to Slate 900
+        accent: '#A78BFA', // Violet 400
+        secondaryAccent: '#C084FC', // Purple 400
+        tertiaryAccent: '#F472B6' // Pink 400
     }
 ];
 
@@ -108,7 +126,13 @@ function generateSVG(project) {
 
 projects.forEach(project => {
     const svgContent = generateSVG(project);
-    const outputPath = path.join(process.cwd(), 'public', 'projects', `${project.id}.svg`);
+    const outputDir = path.join(process.cwd(), 'public', 'projects', project.id);
+    const outputPath = path.join(outputDir, `${project.id}.svg`);
+
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+    }
 
     fs.writeFileSync(outputPath, svgContent);
     console.log(`Generated: ${outputPath}`);

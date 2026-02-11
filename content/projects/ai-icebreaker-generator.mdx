@@ -1,0 +1,168 @@
+---
+title: "AI Icebreaker Generator"
+description: "Built an AI-powered n8n workflow that scrapes prospect websites and generates personalized cold email openers—synthesizing website content, LinkedIn profiles, and professional titles into compelling, research-backed icebreakers."
+date: "2025-06-20"
+tags: ["n8n", "AI", "OpenAI", "Web Scraping", "Sales Automation", "Firecrawl"]
+thumbnail: "/projects/ai-icebreaker-generator/ai-icebreaker-generator.svg"
+---
+
+## Project Overview
+
+Cold outreach lives or dies by the first sentence. Generic "Love your website!" openers get ignored, but genuinely personalized icebreakers that show deep research get responses. I built an automated system that scrapes prospect websites, analyzes their content with AI, and generates personalized cold email icebreakers that sound like you spent 20 minutes researching their business—when it actually took seconds.
+
+<Callout type="info">
+  **Impact**: Each icebreaker is synthesized from **website content + LinkedIn headline + professional title**, creating the impression of comprehensive multi-source research without the manual effort.
+</Callout>
+
+## The Challenge
+
+Sales teams struggle to create personalized cold email openers at scale:
+
+- **Research is time-consuming** - Manually visiting websites, reading about prospects, and crafting personalized openers takes 10-15 minutes per lead
+- **Generic templates fail** - "I noticed you're in [industry]" and "Love your website!" are ignored
+- **Inconsistent quality** - Some reps excel at research; others send bland, templated messages
+- **Scalability limits** - Quality personalization doesn't scale without automation
+
+**The manual workflow was unsustainable:**
+- Visit prospect's company website
+- Read through pages to understand their business
+- Check LinkedIn for headline and role information  
+- Synthesize insights into a compelling opener
+- Write the icebreaker manually
+- Repeat for every prospect in the outreach list
+
+## Solution: Multi-Source AI-Powered Personalization
+
+### Architecture
+
+<Image 
+  src="/projects/ai-icebreaker-generator/ice-breaker-n8n.png" 
+  alt="AI Icebreaker Generator n8n Workflow" 
+  caption="n8n workflow showing the multi-stage AI pipeline for icebreaker generation" 
+/>
+
+**The workflow operates in six stages:**
+
+1. **Lead Data Retrieval** - Fetches prospect information from Google Sheets including name, title, headline, and website URL
+
+2. **Website Scraping** - Firecrawl API extracts clean markdown content from the prospect's website with 2-minute timeout for comprehensive crawling
+
+3. **Content Summarization** - Gemini AI (via OpenRouter) creates a 200-300 word summary capturing the company's purpose, key points, and value proposition
+
+4. **Icebreaker Generation** - Second AI pass synthesizes website summary + LinkedIn headline + job title into a personalized cold email opener with specific business details and genuine connections
+
+5. **Rate Limiting** - Wait nodes with 6-second delays prevent API throttling during batch processing
+
+6. **Data Persistence** - Saves generated icebreakers back to Google Sheets, updating the corresponding lead row
+
+### Multi-Source Data Synthesis
+
+The AI considers three data sources for maximum personalization:
+
+| Source | Data Extracted | Personalization Value |
+|--------|----------------|----------------------|
+| **Website** | Business description, products, services, philosophy | Specific company details and industry insights |
+| **LinkedIn Headline** | Expertise areas, business focus, professional interests | Personal professional context and priorities |
+| **Job Title** | Role responsibilities, seniority level | Tailored messaging complexity and decision-making authority |
+
+### AI Prompt Engineering
+
+The system uses sophisticated prompt engineering to ensure quality output:
+
+**Summarization Prompt:**
+- Instructs AI to capture main purpose, key insights, and value proposition
+- 200-300 word target with original tone preservation
+- Error handling for low-value content ([error] output)
+
+**Icebreaker Prompt:**
+- Spartan/laconic tone optimized for busy professionals
+- Multi-source validation (website + title + headline)
+- Specific business details over generic compliments
+- Company name shortening and location abbreviations for casual tone
+- Role-specific analytics challenges matched to seniority level
+
+## Key Features
+
+- **Website Scraping** - Firecrawl API extracts clean, formatted content from any website
+- **Two-Stage AI Processing** - Summarization followed by personalized copy generation
+- **Multi-Source Context** - Combines website, LinkedIn, and title data for comprehensive research impression
+- **Rate Limiting** - Built-in delays prevent API rate limits during batch processing
+- **Error Resilience** - Failed scrapes or insufficient data output [ERROR] tag instead of broken icebreakers
+- **Batch Processing** - Loops handle multiple leads with 5-item batches and retry logic
+
+## Workflow Components
+
+The automation integrates multiple specialized services:
+
+- **Webhook Trigger** - External systems can trigger icebreaker generation
+- **Google Sheets** - Source of lead data and destination for generated icebreakers
+- **Firecrawl API** - Web scraping service with markdown extraction
+- **OpenRouter** - AI model gateway providing access to Google's Gemini
+- **LangChain LLM Nodes** - Structured AI processing with system prompts
+- **Wait Nodes** - Rate limiting to respect API limits (6-second delays)
+- **Loop Controls** - Batch processing with SplitInBatches for handling multiple leads
+
+## Results
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Metric</th>
+        <th className="p-4 font-semibold">Manual Process</th>
+        <th className="p-4 font-semibold">Automated</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Research time per lead</td>
+        <td className="p-4 text-muted-foreground">10-15 minutes</td>
+        <td className="p-4 font-bold text-foreground text-green-600">~30 seconds</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Data sources analyzed</td>
+        <td className="p-4 text-muted-foreground">Often just LinkedIn</td>
+        <td className="p-4 font-bold text-foreground text-green-600">Website + LinkedIn + Title</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Consistency</td>
+        <td className="p-4 text-muted-foreground">Varies by rep</td>
+        <td className="p-4 font-bold text-foreground text-green-600">Standardized quality</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Scale</td>
+        <td className="p-4 text-muted-foreground">Dozens per day</td>
+        <td className="p-4 font-bold text-foreground text-green-600">Hundreds per day</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+**Sample output:**
+
+<Image 
+  src="/projects/ai-icebreaker-generator/ice-breaker-output.png" 
+  alt="Generated icebreaker examples" 
+  caption="AI-generated icebreakers showing personalized business insights and professional context" 
+/>
+
+## Technologies Used
+
+- **n8n** - Workflow automation platform (self-hosted)
+- **Firecrawl API** - Web scraping and content extraction
+- **OpenRouter** - AI model gateway for accessing Gemini and other LLMs
+- **Google Gemini (via OpenRouter)** - Content summarization and copy generation
+- **Google Sheets API** - Lead data source and icebreaker storage
+- **LangChain** - AI agent framework within n8n
+
+## Lessons Learned
+
+1. **Two-stage AI works better than one** - Separating website summarization from icebreaker generation produces more coherent, contextually rich output than asking a single AI call to do everything.
+
+2. **Error detection is critical** - Not every website has valuable content. The [ERROR] output tag prevents sending broken or generic icebreakers that would hurt response rates.
+
+3. **Rate limiting saves money** - Firecrawl and OpenRouter have rate limits. Built-in wait nodes with 6-second delays prevent failed API calls and retry storms.
+
+4. **Multi-source prompts require clear hierarchy** - The AI needs explicit instructions on which data sources to prioritize when creating icebreakers to avoid generic output.
+
+5. **Tone matters in B2B outreach** - The spartan/laconic tone directive produces concise, respectful openers that busy professionals actually read, unlike fluffy marketing speak.

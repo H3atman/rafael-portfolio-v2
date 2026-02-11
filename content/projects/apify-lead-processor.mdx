@@ -1,0 +1,144 @@
+---
+title: "APIfy Lead Processor"
+description: "Built an n8n automation that processes scraped lead data from CSV files and populates Google Sheets with 30+ enriched data fields—eliminating manual data entry for sales teams."
+date: "2025-06-15"
+tags: ["n8n", "Data Processing", "Automation", "Google Sheets", "Lead Management"]
+thumbnail: "/projects/apify-lead-processor/apify-lead-processor.svg"
+---
+
+## Project Overview
+
+Sales and marketing teams often rely on web scraping tools like APIfy to collect lead data from platforms like LinkedIn, Apollo.io, and other sources. However, getting that data into a usable format requires tedious manual work—downloading CSVs, mapping columns, and entering data into spreadsheets. I built an n8n workflow that automates this entire pipeline, turning a 30+ minute manual process into a simple file upload that completes in seconds.
+
+<Callout type="info">
+  **Impact**: Lead data processing that previously took **30+ minutes per file** now completes in **under 10 seconds** with zero manual data entry errors.
+</Callout>
+
+## The Challenge
+
+Lead generation tools export data in various formats, and sales teams need this information organized consistently in their CRM or tracking sheets:
+
+- **Manual CSV handling** - Downloading, opening, and copying data from scraper exports
+- **Field mapping complexity** - Scraped data has 30+ fields that must map to specific spreadsheet columns
+- **Data format inconsistencies** - Phone numbers, addresses, and revenue figures arrive in mixed formats
+- **Error-prone entry** - Manual copy-paste leads to missed fields and typos
+- **Time sink** - Each batch of leads requires repetitive data entry work
+
+**The manual workflow was inefficient:**
+- Open CSV file from scraper tool
+- Copy relevant columns one by one
+- Paste into Google Sheets
+- Reformat data as needed (phone numbers, addresses)
+- Verify all 30+ fields are correctly mapped
+- Repeat for each new lead batch
+
+## Solution: Automated Lead Data Pipeline
+
+### Architecture
+
+<Image 
+  src="/projects/apify-lead-processor/scaper-data-n8n.png" 
+  alt="APIfy Lead Processor n8n Workflow" 
+  caption="n8n workflow showing the complete lead data processing pipeline" 
+/>
+
+**The workflow operates in four stages:**
+
+1. **Form Upload Trigger** - Simple web form accepts CSV file uploads from team members
+
+2. **Data Extraction** - ExtractFromFile node parses the CSV and converts it to JSON format
+
+3. **Record Splitting** - SplitOut node breaks the dataset into individual lead records for processing
+
+4. **Google Sheets Integration** - Maps 30+ data fields (contact info, company details, LinkedIn URLs, revenue data) to the appropriate spreadsheet columns
+
+### Data Fields Processed
+
+The workflow handles comprehensive lead profiles with 30+ mapped fields:
+
+| Category | Fields |
+|----------|--------|
+| **Contact Info** | First name, last name, full name, email, personal email, phone, mobile number |
+| **Professional** | Job title, headline, seniority level, functional level, LinkedIn URL |
+| **Company** | Company name, domain, website, description, founded year, size |
+| **Location** | City, state, country, full address, postal code |
+| **Financial** | Annual revenue, total funding (raw and clean formats) |
+| **Tech Stack** | Company technologies, LinkedIn UID, keywords |
+
+## Key Features
+
+- **Form-Based Upload** - Team members upload CSV files through a simple web interface—no n8n access required
+- **Automatic Field Mapping** - All 30+ fields map directly to Google Sheets columns without manual configuration
+- **Data Type Handling** - Phone numbers are JSON-stringified to preserve formatting; nested data is flattened
+- **Batch Processing** - Handles multiple leads in a single upload, splitting records automatically
+- **Error Resilience** - Workflow continues processing even if individual records have missing fields
+
+## Workflow Components
+
+The automation chains together specialized n8n nodes:
+
+- **Form Trigger** - Web form with file upload capability
+- **ExtractFromFile** - Parses CSV binary data into workable JSON
+- **SplitOut** - Separates array of leads into individual items for row-by-row processing
+- **Google Sheets** - Appends each lead as a new row with complete field mapping
+
+## Results
+
+<div className="my-6 w-full overflow-y-auto rounded-lg border border-border">
+  <table className="w-full text-left text-sm">
+    <thead className="bg-muted/50 font-medium text-muted-foreground">
+      <tr className="border-b border-border">
+        <th className="p-4 font-semibold">Metric</th>
+        <th className="p-4 font-semibold">Manual Process</th>
+        <th className="p-4 font-semibold">Automated</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-border">
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Processing time</td>
+        <td className="p-4 text-muted-foreground">30+ minutes per file</td>
+        <td className="p-4 font-bold text-foreground text-green-600">< 10 seconds</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Data entry errors</td>
+        <td className="p-4 text-muted-foreground">Common (typos, missed fields)</td>
+        <td className="p-4 font-bold text-foreground text-green-600">Zero</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Field mapping</td>
+        <td className="p-4 text-muted-foreground">Manual for each upload</td>
+        <td className="p-4 font-bold text-foreground text-green-600">Pre-configured (30+ fields)</td>
+      </tr>
+      <tr className="hover:bg-muted/20 transition-colors">
+        <td className="p-4 font-medium">Team access</td>
+        <td className="p-4 text-muted-foreground">Requires spreadsheet access</td>
+        <td className="p-4 font-bold text-foreground text-green-600">Simple web form</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+**Sample output:**
+
+<Image 
+  src="/projects/apify-lead-processor/scaper-output.png" 
+  alt="Google Sheets output showing processed lead data" 
+  caption="Lead data automatically populated in Google Sheets with all 30+ fields mapped" 
+/>
+
+## Technologies Used
+
+- **n8n** - Workflow automation platform (self-hosted)
+- **Google Sheets API** - Data destination with OAuth2 authentication
+- **Form Trigger** - Web-based file upload interface
+- **CSV Processing** - Native n8n file extraction nodes
+
+## Lessons Learned
+
+1. **Form triggers democratize automation** - Team members who don't know n8n can still use the workflow through a simple upload form, removing the bottleneck of technical gatekeepers.
+
+2. **Field mapping is worth the upfront investment** - Spending time to properly map all 30+ fields initially saves countless hours of manual work and eliminates the risk of data ending up in wrong columns.
+
+3. **Handle data type quirks** - Phone numbers and arrays need special handling (JSON.stringify for phone fields) to prevent Google Sheets from mangling the formatting.
+
+4. **SplitOut is essential for batch processing** - Processing leads as individual items rather than arrays enables proper row-by-row insertion and better error isolation.
