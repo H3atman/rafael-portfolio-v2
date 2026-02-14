@@ -18,10 +18,10 @@ export default function ProjectsPage() {
   return (
     <>
       {/* Header */}
-      <section className="py-16 lg:py-24 px-6">
+      <section className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6">
         <div className="container mx-auto">
-          <div className="mb-8">
-            <Button variant="ghost" size="sm" asChild className="mb-4">
+          <div className="mb-6 sm:mb-8">
+            <Button variant="ghost" size="sm" asChild className="mb-3 sm:mb-4 h-10">
               <Link href="/">
                 <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="w-4 h-4 mr-2" />
                 Back to Home
@@ -29,10 +29,10 @@ export default function ProjectsPage() {
             </Button>
           </div>
           <div className="max-w-2xl">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight sm:text-5xl mb-3 sm:mb-4">
               Projects
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg sm:text-xl text-muted-foreground">
               A collection of case studies demonstrating my work in automation,
               integration, and data processing. Each project showcases the
               challenges faced and solutions implemented.
@@ -42,10 +42,10 @@ export default function ProjectsPage() {
       </section>
 
       {/* Projects Grid */}
-      <section className="pb-24 px-6">
+      <section className="pb-16 sm:pb-24 px-4 sm:px-6">
         <div className="container mx-auto">
           {projects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {projects.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}

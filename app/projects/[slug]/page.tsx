@@ -107,11 +107,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       />
 
       {/* Header */}
-      <article className="py-16 lg:py-24 px-6">
+      <article className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6">
         <div className="container mx-auto max-w-4xl">
           {/* Back Button */}
-          <div className="mb-8">
-            <Button variant="ghost" size="sm" asChild>
+          <div className="mb-6 sm:mb-8">
+            <Button variant="ghost" size="sm" asChild className="h-10">
               <Link href="/projects">
                 <HugeiconsIcon
                   icon={ArrowLeft01Icon}
@@ -124,28 +124,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
 
           {/* Article Header */}
-          <header className="mb-12">
+          <header className="mb-8 sm:mb-12">
             {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
               {project.frontmatter.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
+                <Badge key={tag} variant="secondary" className="text-xs sm:text-sm">
                   {tag}
                 </Badge>
               ))}
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight sm:text-5xl mb-3 sm:mb-4">
               {project.frontmatter.title}
             </h1>
 
             {/* Description */}
-            <p className="text-xl text-muted-foreground mb-6">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-4 sm:mb-6">
               {project.frontmatter.description}
             </p>
 
             {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground border-t border-b border-border py-4">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground border-t border-b border-border py-3 sm:py-4">
               <div className="flex items-center gap-2">
                 <HugeiconsIcon
                   icon={Calendar01Icon}
@@ -175,20 +175,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </header>
 
           {/* MDX Content */}
-          <div className="prose prose-invert prose-lg max-w-none">
+          <div className="prose prose-sm sm:prose-base lg:prose-lg prose-invert max-w-none">
             <MDXRemote source={project.content} components={components} />
           </div>
 
           {/* Footer CTA */}
-          <div className="mt-16 pt-8 border-t border-border">
+          <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-border">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div>
+              <div className="text-center sm:text-left">
                 <p className="font-medium mb-1">Interested in similar solutions?</p>
                 <p className="text-sm text-muted-foreground">
-                  Let&apos;s discuss how I can help with your project.
+                  Let's discuss how I can help with your project.
                 </p>
               </div>
-              <Button asChild>
+              <Button asChild className="w-full sm:w-auto h-12">
                 <Link href={config.bookingUrl} target="_blank">
                   Book a Call
                 </Link>

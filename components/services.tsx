@@ -29,24 +29,24 @@ const services = [
 
 export function Services() {
   return (
-    <section className="py-24 bg-muted/30">
-      <div className="container px-6 mx-auto">
-        <div className="max-w-2xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+    <section className="py-16 sm:py-24 bg-muted/30">
+      <div className="container px-4 sm:px-6 mx-auto">
+        <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight sm:text-4xl mb-3 sm:mb-4">
             Core Services
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg">
             Leveraging technology to optimize your business operations.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {services.map((service, index) => (
             <Card
               key={index}
               className="bg-background/60 backdrop-blur-sm border-muted transition-all hover:border-primary/50 hover:shadow-lg"
             >
-              <CardHeader>
+              <CardHeader className="p-4 sm:p-6">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
                   <HugeiconsIcon
                     icon={service.icon}
@@ -54,10 +54,10 @@ export function Services() {
                     className="w-6 h-6"
                   />
                 </div>
-                <CardTitle className="text-xl">{service.title}</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">{service.title}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
+              <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
+                <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
                   {service.description}
                 </p>
               </CardContent>

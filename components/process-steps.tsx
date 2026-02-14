@@ -22,31 +22,31 @@ const steps = [
         title: "See Real Results",
         icon: ChartIncreaseIcon,
         description:
-            "Finally, we measure the difference. I don't just finish a task; I make sure it solves the problem—saving you hours of work or speeding up your business. We confirm the solution works and helps you grow.",
+            "Finally, we measure the difference. I don't just finish a task; I make sure it solves the problem\u2014saving you hours of work or speeding up your business. We confirm the solution works and helps you grow.",
     },
 ];
 
 export function ProcessSteps() {
     return (
-        <section className="py-24 px-6 lg:px-8 bg-background relative overflow-hidden">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
             {/* Subtle background gradient to separate from Hero but keep flow */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background pointer-events-none" />
 
             <div className="mx-auto max-w-7xl relative z-10">
-                <div className="max-w-2xl mx-auto text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4 text-foreground">
+                <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16">
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight sm:text-4xl mb-3 sm:mb-4 text-foreground">
                         Eliminate the Guesswork
                     </h2>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-base sm:text-lg">
                         A simple, proven process to transform your operations.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
                     {steps.map((step, index) => (
                         <div
                             key={index}
-                            className="flex flex-col items-start space-y-4 group"
+                            className="flex flex-col items-start space-y-3 sm:space-y-4 group"
                         >
                             <div className="p-3 rounded-2xl bg-muted/50 border border-border/50 group-hover:border-primary/20 group-hover:bg-primary/5 transition-colors duration-300">
                                 <HugeiconsIcon
@@ -58,10 +58,10 @@ export function ProcessSteps() {
                             </div>
 
                             <div className="space-y-2">
-                                <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
+                                <h3 className="text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
                                     {index + 1}. {step.title}
                                 </h3>
-                                <p className="text-muted-foreground leading-relaxed text-base">
+                                <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
                                     {step.description}
                                 </p>
                             </div>

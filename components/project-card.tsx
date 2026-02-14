@@ -42,9 +42,9 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
             </div>
           )}
         </div>
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-2 p-4 sm:p-6">
           <div className="flex justify-between items-start gap-2 mb-2">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {project.frontmatter.tags.slice(0, 2).map((tag) => (
                 <Badge
                   key={tag}
@@ -71,16 +71,16 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
               </div>
             )}
           </div>
-          <h3 className="font-semibold text-xl leading-tight group-hover:text-primary transition-colors">
+          <h3 className="font-semibold text-lg sm:text-xl leading-tight group-hover:text-primary transition-colors">
             {project.frontmatter.title}
           </h3>
         </CardHeader>
-        <CardContent className="flex-grow">
+        <CardContent className="flex-grow p-4 pt-0 sm:p-6 sm:pt-0">
           <p className="text-muted-foreground text-sm line-clamp-3">
             {project.frontmatter.description}
           </p>
         </CardContent>
-        <CardFooter className="text-primary text-sm font-medium flex items-center">
+        <CardFooter className="p-4 sm:p-6 pt-0 text-primary text-sm font-medium flex items-center">
           Read Case Study{" "}
           <HugeiconsIcon
             icon={ArrowRight01Icon}

@@ -32,11 +32,11 @@ export function HorizontalScrollLoop() {
   ));
 
   return (
-    <section className="py-12 border-y border-border/50 bg-muted/30">
+    <section className="py-8 sm:py-12 border-y border-border/50 bg-muted/30 overflow-hidden">
       <div className="scroll-container">
         <div className="scroll-content">
           {logoElements}
-          {/* Duplicate again for seamless loop */}
+          {/* Duplicate for seamless loop */}
           {logoElements}
         </div>
       </div>
@@ -58,14 +58,35 @@ export function HorizontalScrollLoop() {
         .scroll-content {
           display: inline-flex;
           animation: scroll 30s linear infinite;
-          gap: 6rem;
+          gap: 4rem;
           align-items: center;
+        }
+
+        /* Pause animation on hover/touch for better mobile UX */
+        .scroll-container:hover .scroll-content,
+        .scroll-container:active .scroll-content {
+          animation-play-state: paused;
         }
 
         .logo-item {
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+
+        /* Slower animation on mobile for better performance */
+        @media (max-width: 640px) {
+          .scroll-content {
+            animation-duration: 40s;
+            gap: 3rem;
+          }
+        }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+          .scroll-content {
+            animation: none;
+          }
         }
       `}</style>
     </section>
