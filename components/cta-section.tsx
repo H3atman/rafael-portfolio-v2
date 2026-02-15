@@ -23,7 +23,7 @@ export function CTASection() {
               className="w-full sm:w-auto h-12 px-8 text-base"
               asChild
             >
-              <Link href={config.bookingUrl} target="_blank">
+              <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
                 <HugeiconsIcon
                   icon={Calendar01Icon}
                   strokeWidth={2}

@@ -17,9 +17,22 @@ export function HorizontalScrollLoop() {
     { src: '/logos/zapier.webp', alt: 'Zapier' },
   ];
 
-  // Create logo elements
-  const logoElements = logos.map((logo, index) => (
+  // Create two sets for a seamless loop with unique React keys
+  const logoElementsSet1 = logos.map((logo, index) => (
     <div key={`${logo.alt}-${index}`} className="logo-item shrink-0">
+      <Image
+        src={logo.src}
+        alt={logo.alt}
+        width={200}
+        height={80}
+        className={`h-8 w-auto object-contain brightness-0 dark:brightness-100 ${logo.alt === 'OpenAI' ? 'scale-[1.8]' : ''
+          }`}
+      />
+    </div>
+  ));
+
+  const logoElementsSet2 = logos.map((logo, index) => (
+    <div key={`dup-${logo.alt}-${index}`} className="logo-item shrink-0">
       <Image
         src={logo.src}
         alt={logo.alt}
@@ -35,9 +48,9 @@ export function HorizontalScrollLoop() {
     <section className="py-8 sm:py-12 border-y border-border/50 bg-muted/30 overflow-hidden">
       <div className="scroll-container">
         <div className="scroll-content">
-          {logoElements}
+          {logoElementsSet1}
           {/* Duplicate for seamless loop */}
-          {logoElements}
+          {logoElementsSet2}
         </div>
       </div>
       <style jsx>{`

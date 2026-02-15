@@ -30,14 +30,34 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
 
     // Custom links
-    a: ({ href, children }) => (
-      <Link
-        href={href || "#"}
-        className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
-      >
-        {children}
-      </Link>
-    ),
+    a: ({ href, children, ...props }) => {
+      const className =
+        "text-primary underline underline-offset-4 hover:text-primary/80 transition-colors";
+      if (!href) {
+        return <span className={className}>{children}</span>;
+      }
+
+      const isExternal = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href);
+      if (isExternal) {
+        return (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={className}
+            {...props}
+          >
+            {children}
+          </a>
+        );
+      }
+
+      return (
+        <Link href={href} className={className} {...props}>
+          {children}
+        </Link>
+      );
+    },
 
     // Custom image with Next.js optimization
     img: (props) => (

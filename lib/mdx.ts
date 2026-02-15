@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
+import { parseDate } from "@/lib/date";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
@@ -28,9 +29,8 @@ export interface ProjectMeta {
 }
 
 export function getAllProjects(): ProjectMeta[] {
-    // Create directory if it doesn't exist
+    // Read-only environments (e.g., serverless) may not allow filesystem writes.
     if (!fs.existsSync(projectsDirectory)) {
-        fs.mkdirSync(projectsDirectory, { recursive: true });
         return [];
     }
 
@@ -52,9 +52,11 @@ export function getAllProjects(): ProjectMeta[] {
         .filter((project) => !project.frontmatter.hidden);
 
     // Sort by date (newest first)
-    return projects.sort((a, b) =>
-        new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
-    );
+    return projects.sort((a, b) => {
+        const dateB = parseDate(b.frontmatter.date)?.getTime() ?? 0;
+        const dateA = parseDate(a.frontmatter.date)?.getTime() ?? 0;
+        return dateB - dateA;
+    });
 }
 
 export function getProjectBySlug(slug: string): Project | null {

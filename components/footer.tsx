@@ -28,6 +28,7 @@ export function Footer() {
           <Link
             href="https://www.linkedin.com/in/villanueva-rafael/"
             target="_blank"
+            rel="noopener noreferrer"
             className="p-2.5 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-muted"
           >
             <HugeiconsIcon
@@ -40,6 +41,7 @@ export function Footer() {
           <Link
             href="https://github.com/H3atman"
             target="_blank"
+            rel="noopener noreferrer"
             className="p-2.5 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-muted"
           >
             <HugeiconsIcon

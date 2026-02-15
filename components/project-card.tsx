@@ -20,6 +20,14 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
+  const parsedDate = project.frontmatter.date
+    ? new Date(project.frontmatter.date)
+    : null;
+  const projectYear =
+    parsedDate && !Number.isNaN(parsedDate.getTime())
+      ? parsedDate.getFullYear()
+      : null;
+
   return (
     <Link href={`/projects/${project.slug}`} passHref>
       <Card
@@ -60,14 +68,14 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                 </Badge>
               )}
             </div>
-            {project.frontmatter.date && (
+            {projectYear && (
               <div className="flex items-center text-xs text-muted-foreground shrink-0">
                 <HugeiconsIcon
                   icon={Calendar01Icon}
                   strokeWidth={2}
                   className="w-3 h-3 mr-1"
                 />
-                {new Date(project.frontmatter.date).getFullYear()}
+                {projectYear}
               </div>
             )}
           </div>

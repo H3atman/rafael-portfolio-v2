@@ -14,6 +14,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { useMDXComponents as getMDXComponents } from "@/mdx-components";
 import { config } from "@/lib/config";
 import { siteConfig, personSchema, getAbsoluteUrl } from "@/lib/seo-config";
+import { parseDate } from "@/lib/date";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -44,6 +45,8 @@ export async function generateMetadata({
   const thumbnailUrl = project.frontmatter.thumbnail
     ? getAbsoluteUrl(project.frontmatter.thumbnail)
     : undefined;
+  const publishedDate = parseDate(project.frontmatter.date);
+  const publishedIso = publishedDate?.toISOString();
 
   return {
     title: project.frontmatter.title,
@@ -56,8 +59,8 @@ export async function generateMetadata({
       description: project.frontmatter.description,
       type: "article",
       url: canonicalUrl,
-      publishedTime: project.frontmatter.date,
-      modifiedTime: project.frontmatter.date,
+      publishedTime: publishedIso,
+      modifiedTime: publishedIso,
       authors: [siteConfig.author.name],
       tags: project.frontmatter.tags,
       images: thumbnailUrl ? [{ url: thumbnailUrl }] : [],
@@ -81,6 +84,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   // Get custom MDX components
   const components = getMDXComponents({});
+  const publishedDate = parseDate(project.frontmatter.date);
+  const publishedIso = publishedDate?.toISOString();
+  const publishedDateDisplay = publishedDate
+    ? publishedDate.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "Date TBD";
 
   // Structured data for the article
   const articleSchema = {
@@ -89,8 +101,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     headline: project.frontmatter.title,
     description: project.frontmatter.description,
     author: personSchema,
-    datePublished: project.frontmatter.date,
-    dateModified: project.frontmatter.date,
+    datePublished: publishedIso,
+    dateModified: publishedIso,
     image: project.frontmatter.thumbnail
       ? getAbsoluteUrl(project.frontmatter.thumbnail)
       : undefined,
@@ -152,16 +164,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   strokeWidth={2}
                   className="w-4 h-4"
                 />
-                <time dateTime={project.frontmatter.date}>
-                  {new Date(project.frontmatter.date).toLocaleDateString(
-                    "en-US",
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}
-                </time>
+                {publishedIso ? (
+                  <time dateTime={publishedIso}>{publishedDateDisplay}</time>
+                ) : (
+                  <span>{publishedDateDisplay}</span>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <HugeiconsIcon
@@ -175,7 +182,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </header>
 
           {/* MDX Content */}
-          <div className="prose prose-sm sm:prose-base lg:prose-lg prose-invert max-w-none">
+          <div className="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none">
             <MDXRemote source={project.content} components={components} />
           </div>
 
@@ -185,11 +192,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="text-center sm:text-left">
                 <p className="font-medium mb-1">Interested in similar solutions?</p>
                 <p className="text-sm text-muted-foreground">
-                  Let's discuss how I can help with your project.
+                  Let&apos;s discuss how I can help with your project.
                 </p>
               </div>
               <Button asChild className="w-full sm:w-auto h-12">
-                <Link href={config.bookingUrl} target="_blank">
+                <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
                   Book a Call
                 </Link>
               </Button>

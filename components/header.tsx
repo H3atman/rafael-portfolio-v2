@@ -50,7 +50,7 @@ export function Header() {
           </Link>
           <ThemeToggle />
           <Button asChild size="sm">
-            <Link href={config.bookingUrl} target="_blank">
+            <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
               Book a Call
             </Link>
           </Button>
@@ -99,7 +99,7 @@ export function Header() {
                 </Link>
                 <div className="mt-4 pt-4 border-t">
                   <Button asChild className="w-full h-12" size="lg">
-                    <Link href={config.bookingUrl} target="_blank">
+                    <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
                       <HugeiconsIcon
                         icon={Calendar01Icon}
                         strokeWidth={2}

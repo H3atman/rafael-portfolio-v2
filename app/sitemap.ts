@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllProjects } from '@/lib/mdx';
 import { siteConfig } from '@/lib/seo-config';
+import { parseDate } from '@/lib/date';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projects = getAllProjects();
@@ -24,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Individual project pages
   const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${siteConfig.url}/projects/${project.slug}`,
-    lastModified: new Date(project.frontmatter.date),
+    lastModified: parseDate(project.frontmatter.date) ?? new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
