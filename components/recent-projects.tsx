@@ -19,7 +19,11 @@ export function RecentProjects() {
             Case studies demonstrating my expertise in automation and data.
           </p>
         </div>
-        <Button variant="ghost" asChild className="hidden md:inline-flex group">
+        <Button
+          asChild
+          size="lg"
+          className="hidden md:inline-flex group h-11 px-5 text-sm shadow-sm"
+        >
           <Link href="/projects">
             View All Projects{" "}
             <HugeiconsIcon
@@ -38,7 +42,11 @@ export function RecentProjects() {
       </div>
 
       <div className="mt-8 sm:mt-12 text-center md:hidden">
-        <Button variant="outline" asChild className="w-full sm:w-auto h-12">
+        <Button
+          asChild
+          size="lg"
+          className="w-full sm:w-auto h-12 px-5 text-sm shadow-sm"
+        >
           <Link href="/projects">
             View All Projects{" "}
             <HugeiconsIcon

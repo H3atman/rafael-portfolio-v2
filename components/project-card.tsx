@@ -29,7 +29,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       : null;
 
   return (
-    <Link href={`/projects/${project.slug}`} passHref>
+    <Link href="/project" passHref>
       <Card
         className={cn(
           "overflow-hidden h-full flex flex-col hover:border-primary/50 transition-colors group cursor-pointer",
@@ -89,7 +89,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           </p>
         </CardContent>
         <CardFooter className="p-4 sm:p-6 pt-0 text-primary text-sm font-medium flex items-center">
-          Read Case Study{" "}
+          View Project{" "}
           <HugeiconsIcon
             icon={ArrowRight01Icon}
             strokeWidth={2}
