@@ -10,6 +10,10 @@
 !.yarn/releases
 !.yarn/versions
 
+# bun (this project uses npm; package-lock.json is the tracked lockfile)
+bun.lock
+bun.lockb
+
 # testing
 /coverage
 /plans
