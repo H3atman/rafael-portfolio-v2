@@ -58,7 +58,7 @@ export function Hero() {
             size="lg"
             className="w-full sm:w-auto h-12 px-8 text-base"
           >
-            <Link href="/project">
+            <Link href="/projects">
               View Projects{" "}
               <HugeiconsIcon
                 icon={ArrowRight01Icon}
