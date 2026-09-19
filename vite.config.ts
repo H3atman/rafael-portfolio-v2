@@ -1,9 +1,5 @@
 import { reactRouter } from "@react-router/dev/vite";
-import MDX from "@mdx-js/rollup";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import remarkGfm from "remark-gfm";
-import { remarkReadingTime } from "./plugins/remark-reading-time.ts";
+import { mdxPlugin } from "./plugins/mdx-config.ts";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
@@ -14,20 +10,5 @@ export default defineConfig({
   server: { port: 3000 },
   // Resolves the "@/*" alias from tsconfig.json.
   resolve: { tsconfigPaths: true },
-  plugins: [
-    {
-      enforce: "pre",
-      ...MDX({
-        providerImportSource: "@mdx-js/react",
-        remarkPlugins: [
-          remarkGfm,
-          remarkFrontmatter,
-          remarkReadingTime,
-          [remarkMdxFrontmatter, { name: "frontmatter" }],
-        ],
-      }),
-    },
-    reactRouter(),
-    tailwindcss(),
-  ],
+  plugins: [mdxPlugin(), reactRouter(), tailwindcss()],
 });

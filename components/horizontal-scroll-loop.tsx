@@ -18,7 +18,7 @@ export function HorizontalScrollLoop() {
 
   // Create two sets for a seamless loop with unique React keys
   const logoElementsSet1 = logos.map((logo, index) => (
-    <div key={`${logo.alt}-${index}`} className="logo-item shrink-0">
+    <div key={`${logo.alt}-${index}`} className="hsl-logo-item shrink-0">
       <Image
         src={logo.src}
         alt={logo.alt}
@@ -31,7 +31,7 @@ export function HorizontalScrollLoop() {
   ));
 
   const logoElementsSet2 = logos.map((logo, index) => (
-    <div key={`dup-${logo.alt}-${index}`} className="logo-item shrink-0">
+    <div key={`dup-${logo.alt}-${index}`} className="hsl-logo-item shrink-0">
       <Image
         src={logo.src}
         alt={logo.alt}
@@ -45,15 +45,15 @@ export function HorizontalScrollLoop() {
 
   return (
     <section className="py-8 sm:py-12 border-y border-border/50 bg-muted/30 overflow-hidden">
-      <div className="scroll-container">
-        <div className="scroll-content">
+      <div className="hsl-scroll-container">
+        <div className="hsl-scroll-content">
           {logoElementsSet1}
           {/* Duplicate for seamless loop */}
           {logoElementsSet2}
         </div>
       </div>
       <style>{`
-        @keyframes scroll {
+        @keyframes hsl-scroll {
           0% {
             transform: translateX(0);
           }
@@ -62,25 +62,25 @@ export function HorizontalScrollLoop() {
           }
         }
 
-        .scroll-container {
+        .hsl-scroll-container {
           overflow: hidden;
           white-space: nowrap;
         }
 
-        .scroll-content {
+        .hsl-scroll-content {
           display: inline-flex;
-          animation: scroll 30s linear infinite;
+          animation: hsl-scroll 30s linear infinite;
           gap: 4rem;
           align-items: center;
         }
 
         /* Pause animation on hover/touch for better mobile UX */
-        .scroll-container:hover .scroll-content,
-        .scroll-container:active .scroll-content {
+        .hsl-scroll-container:hover .hsl-scroll-content,
+        .hsl-scroll-container:active .hsl-scroll-content {
           animation-play-state: paused;
         }
 
-        .logo-item {
+        .hsl-logo-item {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -88,7 +88,7 @@ export function HorizontalScrollLoop() {
 
         /* Slower animation on mobile for better performance */
         @media (max-width: 640px) {
-          .scroll-content {
+          .hsl-scroll-content {
             animation-duration: 40s;
             gap: 3rem;
           }
@@ -96,7 +96,7 @@ export function HorizontalScrollLoop() {
 
         /* Respect reduced motion preference */
         @media (prefers-reduced-motion: reduce) {
-          .scroll-content {
+          .hsl-scroll-content {
             animation: none;
           }
         }

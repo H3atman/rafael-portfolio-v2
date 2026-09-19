@@ -17,9 +17,9 @@ import { personSchema, getAbsoluteUrl } from "@/lib/seo-config";
 import { parseDate } from "@/lib/date";
 import type { Route } from "./+types/project";
 
-export function meta({ params }: Route.MetaArgs) {
-  const project = getProjectBySlug(params.slug ?? "");
-
+// Reuses the loader's lookup rather than repeating it. `data` is undefined when
+// the loader threw a 404.
+export function meta({ data: project, params }: Route.MetaArgs) {
   if (!project) {
     return buildMeta({ title: "Project Not Found" });
   }
@@ -55,17 +55,26 @@ export async function loader({ params }: Route.LoaderArgs) {
   if (!project) {
     throw new Response("Not Found", { status: 404 });
   }
-  return null;
+
+  // Only the serializable fields: `content` is a React component and cannot
+  // cross the loader boundary, so the route component looks that up itself.
+  return {
+    frontmatter: project.frontmatter,
+    readingTime: project.readingTime,
+  };
 }
 
-export default function Project({ params }: Route.ComponentProps) {
-  const project = getProjectBySlug(params.slug ?? "");
+export default function Project({ params, loaderData }: Route.ComponentProps) {
+  const { frontmatter, readingTime } = loaderData;
+  // The MDX body is the one field the loader cannot serialize, so it is the
+  // only thing looked up here.
+  const content = getProjectBySlug(params.slug ?? "")?.content;
 
-  if (!project) {
+  if (!content) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const publishedDate = parseDate(project.frontmatter.date);
+  const publishedDate = parseDate(frontmatter.date);
   const publishedIso = publishedDate?.toISOString();
   const publishedDateDisplay = publishedDate
     ? publishedDate.toLocaleDateString("en-US", {
@@ -79,16 +88,16 @@ export default function Project({ params }: Route.ComponentProps) {
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: project.frontmatter.title,
-    description: project.frontmatter.description,
+    headline: frontmatter.title,
+    description: frontmatter.description,
     author: personSchema,
     datePublished: publishedIso,
     dateModified: publishedIso,
-    image: project.frontmatter.thumbnail
-      ? getAbsoluteUrl(project.frontmatter.thumbnail)
+    image: frontmatter.thumbnail
+      ? getAbsoluteUrl(frontmatter.thumbnail)
       : undefined,
     publisher: personSchema,
-    keywords: project.frontmatter.tags.join(", "),
+    keywords: frontmatter.tags.join(", "),
   };
 
   return (
@@ -120,7 +129,7 @@ export default function Project({ params }: Route.ComponentProps) {
           <header className="mb-8 sm:mb-12">
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-              {project.frontmatter.tags.map((tag) => (
+              {frontmatter.tags.map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs sm:text-sm">
                   {tag}
                 </Badge>
@@ -129,12 +138,12 @@ export default function Project({ params }: Route.ComponentProps) {
 
             {/* Title */}
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight sm:text-5xl mb-3 sm:mb-4">
-              {project.frontmatter.title}
+              {frontmatter.title}
             </h1>
 
             {/* Description */}
             <p className="text-lg sm:text-xl text-muted-foreground mb-4 sm:mb-6">
-              {project.frontmatter.description}
+              {frontmatter.description}
             </p>
 
             {/* Meta Info */}
@@ -157,7 +166,7 @@ export default function Project({ params }: Route.ComponentProps) {
                   strokeWidth={2}
                   className="w-4 h-4"
                 />
-                <span>{project.readingTime}</span>
+                <span>{readingTime}</span>
               </div>
             </div>
           </header>
@@ -165,7 +174,7 @@ export default function Project({ params }: Route.ComponentProps) {
           {/* MDX Content */}
           <div className="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none">
             <MDXProvider components={mdxComponents}>
-              {React.createElement(project.content)}
+              {React.createElement(content)}
             </MDXProvider>
           </div>
 

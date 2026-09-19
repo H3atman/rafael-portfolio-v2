@@ -4,5 +4,4 @@ export default [
   index("routes/home.tsx"),
   route("/projects", "routes/projects.tsx"),
   route("/projects/:slug", "routes/project.tsx"),
-  route("/project", "routes/project-redirect.ts"),
 ] satisfies RouteConfig;

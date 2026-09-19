@@ -6,38 +6,13 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
+import { getProjects, parseDate } from "./lib/projects.mjs";
 
-const projectsDirectory = path.join(process.cwd(), "content/projects");
 const outputDirectory = path.join(process.cwd(), "build/client");
 
 // Mirrors siteConfig.url in lib/seo-config.ts. Kept in sync manually because this
 // script runs in plain Node and cannot import the TypeScript module.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rvcodes.com";
-
-function parseDate(value) {
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function getProjects() {
-  if (!fs.existsSync(projectsDirectory)) {
-    return [];
-  }
-
-  return fs
-    .readdirSync(projectsDirectory)
-    .filter((fileName) => fileName.endsWith(".mdx"))
-    .map((fileName) => ({
-      slug: fileName.replace(/\.mdx$/, ""),
-      frontmatter: matter(fs.readFileSync(path.join(projectsDirectory, fileName), "utf8")).data,
-    }))
-    .sort((a, b) => {
-      const dateB = parseDate(b.frontmatter.date)?.getTime() ?? 0;
-      const dateA = parseDate(a.frontmatter.date)?.getTime() ?? 0;
-      return dateB - dateA;
-    });
-}
 
 function urlEntry({ loc, lastModified, changeFrequency, priority }) {
   return [

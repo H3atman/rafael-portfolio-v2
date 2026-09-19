@@ -1,13 +1,7 @@
 import type { Config } from "@react-router/dev/config";
-import fs from "node:fs";
-import path from "node:path";
+import { getProjects } from "./scripts/lib/projects.mjs";
 
-const projectsDir = path.join(process.cwd(), "content/projects");
-
-const projectSlugs = fs
-  .readdirSync(projectsDir)
-  .filter((fileName) => fileName.endsWith(".mdx"))
-  .map((fileName) => fileName.replace(/\.mdx$/, ""));
+const projectSlugs = getProjects().map((project) => project.slug);
 
 export default {
   appDirectory: "app",

@@ -30,7 +30,6 @@ A professional portfolio website for an Operations Business Manager showcasing s
 │  ├── /                 home.tsx                             │
 │  ├── /projects         projects.tsx                         │
 │  ├── /projects/:slug   project.tsx                          │
-│  └── /project          project-redirect.ts (308)            │
 ├─────────────────────────────────────────────────────────────┤
 │  Content Layer (build time, no runtime fs)                  │
 │  ├── MDX Files (content/projects/*.mdx)                     │
@@ -62,7 +61,9 @@ rendering in production.
 | `lib/meta.ts` | SEO builder | `buildMeta()` — title template, OG, Twitter, canonical |
 | `lib/config.ts` | App config | Booking URL centralized |
 | `lib/seo-config.ts` | SEO data | Site metadata, Person schema |
+| `plugins/mdx-config.ts` | MDX pipeline | Remark chain shared by vite + vitest configs |
 | `plugins/remark-reading-time.ts` | Reading time | Injects into MDX frontmatter |
+| `scripts/lib/projects.mjs` | Project list | Build-time enumeration for node tooling |
 | `scripts/generate-seo-files.mjs` | sitemap/robots | Runs via `postbuild` |
 | `components.json` | Shadcn config | Component generation settings |
 
@@ -319,9 +320,10 @@ The sitemap covers `/`, `/projects` and project detail pages; extend
 
 ### Add a Redirect
 
-Static output cannot redirect on its own. Add it to `vercel.json`, and add a route under
-`app/routes/` only if it also needs to work under `npm run start` (see `/project` for the
-existing example of both).
+Static output cannot redirect on its own, and the Node server (`npm run start`) does not
+add redirects either — the built server only serves the routes declared in `app/routes.ts`.
+Add redirects to `vercel.json` only (see `/project` -> `/projects` for the existing
+example).
 
 ## Environment Setup
 
@@ -353,7 +355,6 @@ rafael-portfolio-v2/
 │       ├── home.tsx            # Homepage
 │       ├── projects.tsx        # Projects listing
 │       ├── project.tsx         # Project detail
-│       └── project-redirect.ts # /project -> /projects
 ├── components/
 │   ├── ui/                     # Shadcn components + image/zoomable-image
 │   ├── mdx/                    # MDX components
@@ -383,8 +384,10 @@ rafael-portfolio-v2/
 │   ├── types.ts                # Project/frontmatter types
 │   └── utils.ts                # Utility functions
 ├── plugins/
+│   ├── mdx-config.ts           # Remark chain shared by vite + vitest
 │   └── remark-reading-time.ts  # Injects readingTime into frontmatter
 ├── scripts/
+│   ├── lib/projects.mjs        # Build-time project enumeration
 │   └── generate-seo-files.mjs  # Emits sitemap.xml + robots.txt
 ├── public/
 │   ├── logo.png
@@ -410,8 +413,9 @@ Existing coverage:
 - `lib/meta.test.ts` - title template, canonical, OG/Twitter, robots
 - `lib/date.test.ts` - frontmatter date parsing
 
-`vitest.config.ts` mirrors the MDX plugin pipeline from `vite.config.ts` minus the React
-Router plugin. If you change the remark plugin chain, change it in both places. Note that
+`vitest.config.ts` and `vite.config.ts` both pull the MDX pipeline from
+`plugins/mdx-config.ts`, so the remark plugin chain has one definition and cannot drift;
+vitest just omits the React Router plugin. Note that
 `defineConfig` must be imported from `vitest/config`, not `vite`, or `tsc` rejects the `test`
 key.
 
