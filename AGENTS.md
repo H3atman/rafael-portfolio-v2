@@ -482,6 +482,11 @@ bun run build    # Production build + prerender + SEO files
 bun run start    # Serve the production build
 ```
 
+`vercel.json` pins `"framework": "react-router"`. Keep it. The Vercel project's dashboard
+Framework Preset is still "Next.js" from before the Vite migration, and without this override
+every deploy fails with `No Next.js version detected`, because `next` is no longer a
+dependency. The `framework` key in `vercel.json` takes precedence over the dashboard.
+
 Vercel builds automatically from git, detecting Bun from the committed `bun.lock` and
 installing with `bun install`. Detection is driven by the lockfile alone; the
 `packageManager` field pins Bun for local tooling but Vercel ignores it unless Corepack is

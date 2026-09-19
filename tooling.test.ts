@@ -39,6 +39,18 @@ describe("package manager", () => {
   });
 });
 
+describe("vercel deployment", () => {
+  // The Vercel project's dashboard Framework Preset is still "Next.js" from
+  // before the Vite migration, which fails every build with "No Next.js
+  // version detected" because `next` is no longer a dependency. Declaring the
+  // framework here overrides that stale dashboard setting, so the preset lives
+  // in version control rather than in project state nobody can see or review.
+  it("pins the framework preset, overriding the stale dashboard setting", () => {
+    const vercel = JSON.parse(read("vercel.json"));
+    expect(vercel.framework).toBe("react-router");
+  });
+});
+
 describe("script binaries", () => {
   // npm auto-installs optional peer dependencies; bun does not. A binary that
   // a script shells out to therefore has to come from a *declared* dependency,
