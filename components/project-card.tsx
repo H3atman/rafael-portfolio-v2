@@ -29,7 +29,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       : null;
 
   return (
-    <Link href="/project" passHref>
+    <Link href={`/projects/${project.slug}`}>
       <Card
         className={cn(
           "overflow-hidden h-full flex flex-col hover:border-primary/50 transition-colors group cursor-pointer",
