@@ -2,17 +2,20 @@
 
 Instructions for AI agents working on this Vite + React Router portfolio project.
 
-## Project Context
+## Project context
 
-A professional portfolio website for an Operations Business Manager showcasing services in System Integration, Business Process Automation, and Data Processing. The site is built with Vite 8 and React Router v7 in framework mode, and is fully prerendered to static HTML.
+A portfolio website for an Operations Business Manager. It describes services in System
+Integration, Business Process Automation, and Data Processing. The site runs on Vite 8 and
+React Router v7 in framework mode, and prerenders to static HTML.
 
-**Live Site**: https://rvcodes.com
+Live site: https://rvcodes.com
 
-> Migrated from Next.js 16 App Router. If you find `next/*` imports, `"use client"`
-> directives, `app/layout.tsx`, or `lib/mdx.ts` referenced anywhere, that reference is
-> stale. The only surviving "next" package is `next-themes`, which is framework-agnostic.
+> This project migrated from Next.js 16 App Router. If you find `next/*` imports,
+> `"use client"` directives, `app/layout.tsx`, or `lib/mdx.ts` referenced anywhere, that
+> reference is stale. The only surviving "next" package is `next-themes`, which works with
+> any framework.
 
-## Architecture Overview
+## Architecture overview
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,11 +47,11 @@ A professional portfolio website for an Operations Business Manager showcasing s
 └─────────────────────────────────────────────────────────────┘
 ```
 
-Everything renders on both server and client. `react-router.config.ts` enumerates the
-prerender routes; `npm run build` writes static HTML for each. There is no request-time
-rendering in production.
+Everything renders on both server and client. `react-router.config.ts` lists the prerender
+routes, and `npm run build` writes static HTML for each one. Production does no request-time
+rendering.
 
-## Critical Files
+## Critical files
 
 | File | Purpose | Notes |
 |------|---------|-------|
@@ -56,9 +59,9 @@ rendering in production.
 | `app/routes.ts` | Route declarations | Add new routes here |
 | `app/globals.css` | Theme system | OKLCH color variables, font imports |
 | `vite.config.ts` | Build config | MDX, Tailwind, React Router plugins; `envPrefix` |
-| `react-router.config.ts` | Prerender list | Enumerates every static route |
+| `react-router.config.ts` | Prerender list | Lists every static route |
 | `lib/content.ts` | Content index | getAllProjects, getProjectBySlug, getRecentProjects |
-| `lib/meta.ts` | SEO builder | `buildMeta()` — title template, OG, Twitter, canonical |
+| `lib/meta.ts` | SEO builder | `buildMeta()` covers the title template, OG, Twitter, canonical |
 | `lib/config.ts` | App config | Booking URL centralized |
 | `lib/seo-config.ts` | SEO data | Site metadata, Person schema |
 | `plugins/mdx-config.ts` | MDX pipeline | Remark chain shared by vite + vitest configs |
@@ -79,16 +82,16 @@ npm run lint       # ESLint
 ```
 
 Run `typecheck` and `test` before declaring work done. `typecheck` runs `react-router typegen`
-first, which regenerates the `./+types/*` route types — a missing type import usually means
+first, which regenerates the `./+types/*` route types. A missing type import usually means
 typegen has not run.
 
-## Component Patterns
+## Component patterns
 
-### No Server/Client Split
+### No server/client split
 
-There are **no `"use client"` directives**. That was a Next.js concept and was removed in the
-migration. Every component renders during prerender and again on the client, so anything
-touching `window`, `document`, or `localStorage` must be guarded:
+There are no `"use client"` directives. That was a Next.js concept, removed during the
+migration. Every component renders during prerender and again on the client, so guard anything
+that touches `window`, `document`, or `localStorage`:
 
 ```tsx
 useEffect(() => {
@@ -108,15 +111,15 @@ import { Image } from "@/components/ui/image"
 <Image src="/hero.png" alt="Hero" priority />      // loading="eager" fetchPriority="high"
 ```
 
-A `fill` image needs a positioned parent (`relative` + explicit size or aspect box).
+A `fill` image needs a positioned parent (`relative` plus an explicit size or aspect box).
 
 ### Links
 
-Use `<Link to="...">` from `react-router` for internal navigation. External URLs — including
-`config.bookingUrl` — must be plain `<a href target="_blank" rel="noopener noreferrer">`, not
-router links.
+Use `<Link to="...">` from `react-router` for internal navigation. External URLs, including
+`config.bookingUrl`, must be plain `<a href target="_blank" rel="noopener noreferrer">` rather
+than router links.
 
-### Shadcn/UI Usage
+### Shadcn/UI usage
 
 Components use Class Variance Authority (CVA) for variants:
 
@@ -127,33 +130,36 @@ Components use Class Variance Authority (CVA) for variants:
 </Button>
 ```
 
-**Shadcn components (15)**: alert-dialog, badge, button, card, combobox, dropdown-menu, field,
-input, input-group, label, select, separator, sheet, textarea, toggle
+The 15 installed shadcn components are alert-dialog, badge, button, card, combobox,
+dropdown-menu, field, input, input-group, label, select, separator, sheet, textarea, and
+toggle.
 
-**Hand-written additions**: `image.tsx` (next/image shim), `zoomable-image.tsx`
+Two files in `components/ui/` are hand-written rather than generated: `image.tsx` (the
+`next/image` shim) and `zoomable-image.tsx`.
 
-### Adding New Shadcn Components
+### Adding new shadcn components
 
 ```bash
 npx shadcn@latest add [component-name]
 ```
 
-Configuration in `components.json`:
-- Style: `radix-lyra`
-- Icons: `hugeicons`
-- Path aliases configured
+`components.json` sets the style to `radix-lyra`, the icon library to `hugeicons`, and the
+path aliases.
 
-Generated components may ship with `"use client"` at the top — delete it.
+Generated components may ship with `"use client"` at the top. Delete it.
 
-## Styling Guidelines
+## Styling guidelines
 
-### Tailwind Classes
-- Use utility classes directly in JSX
-- Merge with `cn()` utility from `lib/utils.ts`
-- Prefer Tailwind over custom CSS
-- Tailwind 4 is CSS-first: configuration lives in `app/globals.css`, not a JS config file
+### Tailwind classes
 
-### Theme Colors (CSS Variables in OKLCH)
+- Use utility classes directly in JSX.
+- Merge them with the `cn()` utility from `lib/utils.ts`.
+- Prefer Tailwind over custom CSS.
+- Tailwind 4 is CSS-first, so its configuration lives in `app/globals.css` rather than a JS
+  config file.
+
+### Theme colors (CSS variables in OKLCH)
+
 ```css
 /* Light mode - :root */
 --background: oklch(1 0 0);
@@ -165,14 +171,14 @@ Generated components may ship with `"use client"` at the top — delete it.
 --foreground: oklch(0.985 0 0);
 ```
 
-### Dark Mode
-- Managed by `next-themes`
-- Toggle component in header
-- Use `dark:` prefix for dark-specific styles
+### Dark mode
 
-## Content Management
+`next-themes` manages the theme, and the toggle component sits in the header. Use the `dark:`
+prefix for dark-specific styles.
 
-### MDX Project Structure
+## Content management
+
+### MDX project structure
 
 ```yaml
 # content/projects/example.mdx
@@ -189,32 +195,32 @@ Your MDX content here with components...
 
 ### Drafts
 
-**Unpublished projects live in `content/drafts/`, not behind a `hidden:` flag.** Only
-`content/projects/` is globbed, so a draft's prose is never compiled into the client bundle.
+Unpublished projects live in `content/drafts/`, not behind a `hidden:` flag. Only
+`content/projects/` is globbed, so a draft's prose never compiles into the client bundle.
 A `hidden: true` flag would still ship the full text to the browser and merely hide the link,
 so `lib/content.ts` throws at build time if it finds one in `content/projects/`.
 
 To unpublish: `git mv content/projects/slug.mdx content/drafts/`
 
-### Reading Time
+### Reading time
 
-`readingTime` is injected into each file's frontmatter by `plugins/remark-reading-time.ts`
-during the MDX transform. Do **not** try to read MDX source via a `?raw` glob — the MDX
-plugin intercepts it and you get a compiled component instead of a string.
+`plugins/remark-reading-time.ts` injects `readingTime` into each file's frontmatter during the
+MDX transform. Do not try to read MDX source through a `?raw` glob. The MDX plugin intercepts
+it and hands back a compiled component instead of a string.
 
-### Available MDX Components
+### Available MDX components
 
-Mapped in `mdx-components.tsx` and supplied via `MDXProvider`:
+`mdx-components.tsx` maps these, and `MDXProvider` supplies them:
 - `<Image />` - Image with caption support
 - `<Callout type="info|warning|success|danger" />` - Alert boxes
 - `<Video />` - Video embedding
 - `<YouTubeVideo />` - YouTube embeds
 
-Standard markdown elements (headings, links, tables, code) are restyled there too. Bare JSX in
-an MDX body resolves through `MDXProvider`, which is why `vite.config.ts` sets
+The same file restyles the standard markdown elements (headings, links, tables, code). Bare
+JSX in an MDX body resolves through `MDXProvider`, which is why `vite.config.ts` sets
 `providerImportSource: "@mdx-js/react"`.
 
-### Data Functions
+### Data functions
 
 ```typescript
 import { getAllProjects, getProjectBySlug, getRecentProjects } from '@/lib/content'
@@ -222,7 +228,8 @@ import { getAllProjects, getProjectBySlug, getRecentProjects } from '@/lib/conte
 // Get all projects (sorted by date, newest first)
 const projects = getAllProjects()
 
-// Get single project; `content` is a React component, not a string
+// Get single project; `content` is a React component, not a string.
+// Returns null for an unknown slug.
 const project = getProjectBySlug('project-slug')
 
 // Get recent N projects
@@ -237,13 +244,13 @@ Render a project body with:
 </MDXProvider>
 ```
 
-## SEO Implementation
+## SEO implementation
 
-### Page Metadata
+### Page metadata
 
-Next's `metadata` / `generateMetadata` exports are replaced by React Router `meta()` exports.
-React Router has no built-in title template, so `buildMeta()` in `lib/meta.ts` reproduces the
-`"%s | Rafael Portfolio"` pattern along with canonical, OpenGraph, Twitter and robots tags.
+React Router `meta()` exports replace Next's `metadata` and `generateMetadata` exports. React
+Router has no built-in title template, so `buildMeta()` in `lib/meta.ts` reproduces the
+`"%s | Rafael Portfolio"` pattern along with canonical, OpenGraph, Twitter, and robots tags.
 
 ```typescript
 import { buildMeta } from "@/lib/meta"
@@ -268,36 +275,42 @@ export function meta({ params }: Route.MetaArgs) {
 ```
 
 Always go through `buildMeta()` rather than returning raw descriptors, so the title template
-and site-wide tags stay consistent. A canonical link needs `tagName: "link"` — plain
-`{rel, href}` descriptors are silently dropped by React Router.
+and site-wide tags stay consistent. A canonical link needs `tagName: "link"`. React Router
+silently drops plain `{rel, href}` descriptors.
 
-### Structured Data
-- WebSite schema in `app/root.tsx`
-- Article schema in `app/routes/project.tsx`
-- Person schema from `lib/seo-config.ts`
+### Structured data
 
-### sitemap.xml / robots.txt
+- `app/root.tsx` emits the WebSite schema.
+- `app/routes/project.tsx` emits the Article schema.
+- `lib/seo-config.ts` supplies the Person schema.
 
-These are **not routes**. `scripts/generate-seo-files.mjs` writes them into `build/client/`
-after the build, via the `postbuild` script. It runs in plain Node and cannot import the
-TypeScript modules, so it duplicates `siteUrl` and date parsing — keep them in sync with
-`lib/seo-config.ts` and `lib/date.ts`.
+### sitemap.xml and robots.txt
 
-## Common Development Tasks
+These are not routes. `scripts/generate-seo-files.mjs` writes them into `build/client/` after
+the build, through the `postbuild` script. It runs in plain Node and cannot import the
+TypeScript modules, so it duplicates `siteUrl` and date parsing. Keep those copies in sync
+with `lib/seo-config.ts` and `lib/date.ts`.
 
-### Add a New Service/Section
-1. Create component in `components/`
-2. Import in the relevant route under `app/routes/`
-3. Follow existing patterns (Hero, Services, CTASection)
+## Common development tasks
 
-### Add a New Project
-1. Create `content/projects/slug-name.mdx`
-2. Add complete frontmatter (title, description, date, tags, thumbnail)
-3. Write content with MDX components
-4. Project auto-appears in listings, the sitemap, and the prerender list
+### Add a new service or section
 
-### Modify Navigation
+1. Create the component in `components/`.
+2. Import it in the relevant route under `app/routes/`.
+3. Match the structure of `hero.tsx`, `services.tsx`, or `cta-section.tsx`.
+
+### Add a new project
+
+1. Create `content/projects/slug-name.mdx`.
+2. Fill in the frontmatter: title, description, date, tags, thumbnail.
+3. Write the body with MDX components.
+4. The project then appears in the listings, the sitemap, and the prerender list without
+   further work.
+
+### Modify navigation
+
 Edit `components/header.tsx`:
+
 ```tsx
 <nav className="flex items-center gap-6">
   <Link to="/">Home</Link>
@@ -308,24 +321,24 @@ Edit `components/header.tsx`:
 </nav>
 ```
 
-### Add New Route
-1. Create `app/routes/route-name.tsx`
-2. Register it in `app/routes.ts`
-3. Export a `meta()` built with `buildMeta()`
-4. Add it to the `prerender()` list in `react-router.config.ts` if public
-5. Add to navigation if needed
+### Add a new route
 
-The sitemap covers `/`, `/projects` and project detail pages; extend
-`scripts/generate-seo-files.mjs` for anything else that should be listed.
+1. Create `app/routes/route-name.tsx`.
+2. Register it in `app/routes.ts`.
+3. Export a `meta()` built with `buildMeta()`.
+4. Add it to the `prerender()` list in `react-router.config.ts` if it is public.
+5. Add it to the navigation if it needs a link.
 
-### Add a Redirect
+The sitemap covers `/`, `/projects`, and the project detail pages. Extend
+`scripts/generate-seo-files.mjs` for anything else that should appear there.
 
-Static output cannot redirect on its own, and the Node server (`npm run start`) does not
-add redirects either — the built server only serves the routes declared in `app/routes.ts`.
-Add redirects to `vercel.json` only (see `/project` -> `/projects` for the existing
-example).
+### Add a redirect
 
-## Environment Setup
+Static output cannot redirect on its own, and the Node server (`npm run start`) does not add
+redirects either. The built server only serves the routes declared in `app/routes.ts`. Add
+redirects to `vercel.json` only. The `/project` to `/projects` rule is the existing example.
+
+## Environment setup
 
 ```env
 # .env.local
@@ -335,15 +348,15 @@ NEXT_PUBLIC_POSTHOG_KEY=phc_...
 NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
 ```
 
-The `NEXT_PUBLIC_` prefix is retained deliberately — production already has these names set —
-via `envPrefix` in `vite.config.ts`.
+`envPrefix` in `vite.config.ts` keeps the `NEXT_PUBLIC_` prefix working, because production
+already has these names set.
 
-**Read them with `import.meta.env`, never `process.env`.** Vite rewrites `process.env` to an
-empty object in the client bundle, so `process.env.ANYTHING` silently evaluates to `undefined`
-in the browser and falls through to its default without raising an error. Values are inlined
-at build time, so changing one requires a rebuild.
+Read them with `import.meta.env`, never `process.env`. Vite rewrites `process.env` to an empty
+object in the client bundle, so `process.env.ANYTHING` evaluates to `undefined` in the browser
+and falls through to its default without raising an error. Vite inlines the values at build
+time, so changing one requires a rebuild.
 
-## File Structure Reference
+## File structure reference
 
 ```
 rafael-portfolio-v2/
@@ -405,75 +418,99 @@ rafael-portfolio-v2/
 
 ## Testing
 
-Vitest is configured (`vitest.config.ts`) and runs in a Node environment — no jsdom, so these
-are unit tests over the content index and helpers, not component render tests.
+`vitest.config.ts` runs Vitest in a Node environment with no jsdom, so these are unit tests
+over the content index and the helpers rather than component render tests.
 
 Existing coverage:
-- `lib/content.test.ts` - project index, sort order, draft exclusion, reading time
-- `lib/meta.test.ts` - title template, canonical, OG/Twitter, robots
-- `lib/date.test.ts` - frontmatter date parsing
+- `lib/content.test.ts` covers the project index, sort order, draft exclusion, and reading
+  time.
+- `lib/meta.test.ts` covers the title template, canonical, OG/Twitter, and robots tags.
+- `lib/date.test.ts` covers frontmatter date parsing.
 
 `vitest.config.ts` and `vite.config.ts` both pull the MDX pipeline from
-`plugins/mdx-config.ts`, so the remark plugin chain has one definition and cannot drift;
-vitest just omits the React Router plugin. Note that
-`defineConfig` must be imported from `vitest/config`, not `vite`, or `tsc` rejects the `test`
-key.
+`plugins/mdx-config.ts`, so the remark plugin chain has one definition and cannot drift. The
+vitest config just omits the React Router plugin. Import `defineConfig` from `vitest/config`,
+not from `vite`, or `tsc` rejects the `test` key.
 
-Playwright E2E is still unconfigured; consider it for navigation and theme-toggle coverage.
+Playwright E2E is unconfigured. Navigation and the theme toggle are the first cases to cover
+if someone adds it.
 
-## Performance Notes
+## Performance notes
 
-- Images: WebP where possible; `components/ui/image.tsx` is a plain `<img>` with no CDN loader,
-  since all images are local `/public` paths
-- Fonts: `@fontsource-variable/jetbrains-mono` and `@fontsource-variable/geist-mono`, imported
-  from `app/globals.css` (replaced `next/font`)
-- CSS: Tailwind purges unused styles
-- MDX: compiled at build time into the bundle, not rendered per request
+- Images use WebP where possible. `components/ui/image.tsx` is a plain `<img>` with no CDN
+  loader, since every image is a local `/public` path.
+- Fonts come from `@fontsource-variable/jetbrains-mono` and `@fontsource-variable/geist-mono`,
+  imported in `app/globals.css`. They replaced `next/font`.
+- Tailwind purges unused styles.
+- MDX compiles at build time into the bundle rather than rendering per request.
 
 ## Deployment
 
-Optimized for Vercel:
+This project targets Vercel.
+
 ```bash
 npm run build    # Production build + prerender + SEO files
 npm run start    # Serve the production build
 ```
 
-- Automatic builds from git
-- Environment variables in Vercel dashboard (rebuild required — they are inlined)
-- Redirects declared in `vercel.json`
-- Output is static HTML under `build/client/`
+Vercel builds automatically from git. Set environment variables in the Vercel dashboard and
+rebuild afterwards, since the build inlines them. Redirects live in `vercel.json`. The output
+is static HTML under `build/client/`.
 
 ## Troubleshooting
 
-### Hydration Errors
-- Check for browser-only APIs (window, document, localStorage) outside `useEffect`
-- `suppressHydrationWarning` on `<html>` for theme
-- Values read from `process.env` differ between prerender and browser — use `import.meta.env`
+### Hydration errors
 
-### Env Var Is Undefined in the Browser
-- You used `process.env`; switch to `import.meta.env`
-- The prefix must be `VITE_` or `NEXT_PUBLIC_` (see `envPrefix` in `vite.config.ts`)
-- Values are inlined at build time — rebuild after changing them
+- Look for browser-only APIs (`window`, `document`, `localStorage`) called outside
+  `useEffect`.
+- `app/root.tsx` sets `suppressHydrationWarning` on `<html>` for the theme class.
+- Values read from `process.env` differ between prerender and browser. Use `import.meta.env`.
 
-### MDX Not Rendering
-- Check frontmatter YAML syntax
-- Verify the file is in `content/projects/`, not `content/drafts/`
-- Bare JSX components must be registered in `mdx-components.tsx`
-- Check for import errors in MDX content
+### An env var is undefined in the browser
 
-### Route 404s in Production but Works in Dev
-- The route is missing from `prerender()` in `react-router.config.ts`
+- You used `process.env`. Switch to `import.meta.env`.
+- The prefix must be `VITE_` or `NEXT_PUBLIC_`. See `envPrefix` in `vite.config.ts`.
+- Vite inlines the values at build time, so rebuild after changing one.
 
-### Missing Route Types (`./+types/*`)
-- Run `npm run typecheck`, which runs `react-router typegen` first
+### MDX not rendering
 
-### Styling Issues
-- Run `npm run build` to catch Tailwind purge issues
-- Check CSS variable definitions in globals.css
-- Verify dark mode classes working
+- Check the frontmatter YAML syntax.
+- Verify the file is in `content/projects/`, not `content/drafts/`.
+- Register any bare JSX component in `mdx-components.tsx`.
+- Check for import errors in the MDX content.
 
-### Shadcn Component Issues
-- Run `npx shadcn@latest add [component]` to reinstall
-- Remove any `"use client"` directive from the generated file
-- Check `components.json` for correct configuration
-- Verify Radix UI dependencies are installed
+### A route 404s in production but works in dev
+
+The route is missing from `prerender()` in `react-router.config.ts`.
+
+### Missing route types (`./+types/*`)
+
+Run `npm run typecheck`, which runs `react-router typegen` first.
+
+### Styling issues
+
+- Run `npm run build` to catch Tailwind purge problems that dev mode hides.
+- Check the CSS variable definitions in `app/globals.css`.
+- Check that the `.dark` class reaches the element you are styling.
+
+### Shadcn component issues
+
+- Re-run `npx shadcn@latest add [component]` to reinstall the component.
+- Delete any `"use client"` directive from the generated file.
+- Check `components.json` for the correct style, icon library, and aliases.
+- Check that the component's Radix UI dependencies are installed.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues (`H3atman/rafael-portfolio-v2`), managed with the
+`gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical triage labels, used verbatim. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` plus `docs/adr/` at the repo root. See `docs/agents/domain.md`.
