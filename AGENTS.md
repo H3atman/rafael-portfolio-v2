@@ -48,7 +48,7 @@ Live site: https://rvcodes.com
 ```
 
 Everything renders on both server and client. `react-router.config.ts` lists the prerender
-routes, and `npm run build` writes static HTML for each one. Production does no request-time
+routes, and `bun run build` writes static HTML for each one. Production does no request-time
 rendering.
 
 ## Critical files
@@ -73,13 +73,36 @@ rendering.
 ## Commands
 
 ```bash
-npm run dev        # Dev server on http://localhost:3000
-npm run build      # Build + prerender, then emit sitemap.xml/robots.txt
-npm run start      # Serve the production build
-npm run test       # vitest
-npm run typecheck  # react-router typegen + tsc --noEmit
-npm run lint       # ESLint
+bun install        # Install dependencies (writes bun.lock)
+bun run dev        # Dev server on http://localhost:3000
+bun run build      # Build + prerender, then emit sitemap.xml/robots.txt
+bun run start      # Serve the production build
+bun run test       # vitest
+bun run typecheck  # react-router typegen + tsc --noEmit
+bun run lint       # ESLint
 ```
+
+This project uses Bun as its package manager and script runner. `bun.lock` is the only
+tracked lockfile, and `.gitignore` blocks the npm/yarn/pnpm ones so a stray install cannot
+change what Vercel resolves at deploy time.
+
+Always spell it `bun run test`, never `bun test`. Bare `bun test` invokes Bun's own test
+runner, which ignores `vitest.config.ts` and therefore the MDX pipeline, so the content tests
+fail on import rather than on their assertions.
+
+Bun does run `pre`/`post` lifecycle scripts, so `postbuild` (sitemap.xml and robots.txt) still
+fires after `bun run build`.
+
+Two sets of docs are deliberately exempt, because rewriting them would make them false:
+`PORTFOLIO.md` is a case study of a separate Next.js + Convex app, and `plans/` holds
+superseded plan documents that describe work as it was carried out at the time, under Next.js.
+Their old package-manager commands stay as they are, and `tooling.test.ts` skips both.
+
+Unlike npm, Bun does not install *optional peer* dependencies. Anything a script shells out to
+must therefore be a declared dependency: `@react-router/serve` is listed explicitly for exactly
+this reason, because it is only an optional peer of `@react-router/dev` and `bun run start`
+cannot find `react-router-serve` without it. `tooling.test.ts` asserts that every binary named
+in a `package.json` script is provided by a declared dependency.
 
 Run `typecheck` and `test` before declaring work done. `typecheck` runs `react-router typegen`
 first, which regenerates the `./+types/*` route types. A missing type import usually means
@@ -140,7 +163,7 @@ Two files in `components/ui/` are hand-written rather than generated: `image.tsx
 ### Adding new shadcn components
 
 ```bash
-npx shadcn@latest add [component-name]
+bunx shadcn@latest add [component-name]
 ```
 
 `components.json` sets the style to `radix-lyra`, the icon library to `hugeicons`, and the
@@ -334,7 +357,7 @@ The sitemap covers `/`, `/projects`, and the project detail pages. Extend
 
 ### Add a redirect
 
-Static output cannot redirect on its own, and the Node server (`npm run start`) does not add
+Static output cannot redirect on its own, and the Node server (`bun run start`) does not add
 redirects either. The built server only serves the routes declared in `app/routes.ts`. Add
 redirects to `vercel.json` only. The `/project` to `/projects` rule is the existing example.
 
@@ -406,6 +429,7 @@ rafael-portfolio-v2/
 │   ├── logo.png
 │   ├── logos/                  # Tech logos (WebP)
 │   └── projects/               # Project images
+├── tooling.test.ts             # Lockfile/binary/doc guards for the bun toolchain
 ├── mdx-components.tsx          # MDX component mapping
 ├── components.json             # Shadcn CLI config
 ├── vite.config.ts              # Vite config
@@ -426,6 +450,10 @@ Existing coverage:
   time.
 - `lib/meta.test.ts` covers the title template, canonical, OG/Twitter, and robots tags.
 - `lib/date.test.ts` covers frontmatter date parsing.
+- `tooling.test.ts` covers the repo's toolchain invariants: bun.lock is the only lockfile,
+  every binary a `package.json` script calls comes from a declared dependency, and the docs
+  do not drift back to npm. It sits at the repo root because `eslint.config.mjs` ignores
+  `scripts/**`, which would leave a test file there unlinted.
 
 `vitest.config.ts` and `vite.config.ts` both pull the MDX pipeline from
 `plugins/mdx-config.ts`, so the remark plugin chain has one definition and cannot drift. The
@@ -449,11 +477,16 @@ if someone adds it.
 This project targets Vercel.
 
 ```bash
-npm run build    # Production build + prerender + SEO files
-npm run start    # Serve the production build
+bun install      # Install dependencies
+bun run build    # Production build + prerender + SEO files
+bun run start    # Serve the production build
 ```
 
-Vercel builds automatically from git. Set environment variables in the Vercel dashboard and
+Vercel builds automatically from git, detecting Bun from the committed `bun.lock` and
+installing with `bun install`. Detection is driven by the lockfile alone; the
+`packageManager` field pins Bun for local tooling but Vercel ignores it unless Corepack is
+explicitly enabled. To pin Bun's version on Vercel, set an `installCommand` such as
+`bunx bun@1.4.2 install`. Set environment variables in the Vercel dashboard and
 rebuild afterwards, since the build inlines them. Redirects live in `vercel.json`. The output
 is static HTML under `build/client/`.
 
@@ -485,17 +518,17 @@ The route is missing from `prerender()` in `react-router.config.ts`.
 
 ### Missing route types (`./+types/*`)
 
-Run `npm run typecheck`, which runs `react-router typegen` first.
+Run `bun run typecheck`, which runs `react-router typegen` first.
 
 ### Styling issues
 
-- Run `npm run build` to catch Tailwind purge problems that dev mode hides.
+- Run `bun run build` to catch Tailwind purge problems that dev mode hides.
 - Check the CSS variable definitions in `app/globals.css`.
 - Check that the `.dark` class reaches the element you are styling.
 
 ### Shadcn component issues
 
-- Re-run `npx shadcn@latest add [component]` to reinstall the component.
+- Re-run `bunx shadcn@latest add [component]` to reinstall the component.
 - Delete any `"use client"` directive from the generated file.
 - Check `components.json` for the correct style, icon library, and aliases.
 - Check that the component's Radix UI dependencies are installed.

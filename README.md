@@ -26,8 +26,8 @@ A professional portfolio website for Rafael, an Operations Business Manager spec
 
 ## 📋 Prerequisites
 
-- Node.js 18 or higher
-- npm, yarn, pnpm, or bun
+- [Bun](https://bun.sh) 1.4 or higher (package manager and script runner)
+- Node.js 18 or higher (the `postbuild` SEO script runs under Node)
 
 ## 🏁 Getting Started
 
@@ -39,12 +39,6 @@ A professional portfolio website for Rafael, an Operations Business Manager spec
 
 2. **Install dependencies**
    ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   # or
    bun install
    ```
 
@@ -53,13 +47,7 @@ A professional portfolio website for Rafael, an Operations Business Manager spec
 
 4. **Run the development server**
    ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
+   bun run dev
    ```
 
 5. **Open your browser**
@@ -96,8 +84,8 @@ This project is optimized for deployment on Vercel:
 
 For manual deployment:
 ```bash
-npm run build
-npm run start
+bun run build
+bun run start
 ```
 
 ## 📞 Contact
