@@ -1,7 +1,7 @@
-import { Metadata } from "next";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { getAllProjects, getProjectBySlug } from "@/lib/mdx";
+import React from "react";
+import { Link } from "react-router";
+import { buildMeta } from "@/lib/meta";
+import { getProjectBySlug } from "@/lib/content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -10,80 +10,61 @@ import {
   Calendar01Icon,
   Clock01Icon,
 } from "@hugeicons/core-free-icons";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { useMDXComponents as getMDXComponents } from "@/mdx-components";
+import { MDXProvider } from "@mdx-js/react";
+import { mdxComponents } from "@/mdx-components";
 import { config } from "@/lib/config";
-import { siteConfig, personSchema, getAbsoluteUrl } from "@/lib/seo-config";
+import { personSchema, getAbsoluteUrl } from "@/lib/seo-config";
 import { parseDate } from "@/lib/date";
+import type { Route } from "./+types/project";
 
-interface ProjectPageProps {
-  params: Promise<{ slug: string }>;
-}
-
-// Generate static paths for all projects
-export async function generateStaticParams() {
-  const projects = getAllProjects();
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
-}
-
-// Generate metadata for each project
-export async function generateMetadata({
-  params,
-}: ProjectPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
+export function meta({ params }: Route.MetaArgs) {
+  const project = getProjectBySlug(params.slug ?? "");
 
   if (!project) {
-    return {
-      title: "Project Not Found",
-    };
+    return buildMeta({ title: "Project Not Found" });
   }
 
-  const canonicalUrl = `/projects/${slug}`;
+  const canonicalUrl = `/projects/${params.slug}`;
   const thumbnailUrl = project.frontmatter.thumbnail
     ? getAbsoluteUrl(project.frontmatter.thumbnail)
     : undefined;
   const publishedDate = parseDate(project.frontmatter.date);
   const publishedIso = publishedDate?.toISOString();
 
-  return {
+  return buildMeta({
     title: project.frontmatter.title,
     description: project.frontmatter.description,
-    alternates: {
-      canonical: canonicalUrl,
-    },
-    openGraph: {
-      title: project.frontmatter.title,
-      description: project.frontmatter.description,
+    canonical: canonicalUrl,
+    og: {
       type: "article",
       url: canonicalUrl,
+      images: thumbnailUrl ? [thumbnailUrl] : [],
       publishedTime: publishedIso,
       modifiedTime: publishedIso,
-      authors: [siteConfig.author.name],
+      authors: [personSchema.name],
       tags: project.frontmatter.tags,
-      images: thumbnailUrl ? [{ url: thumbnailUrl }] : [],
     },
     twitter: {
-      card: "summary_large_image",
-      title: project.frontmatter.title,
-      description: project.frontmatter.description,
       images: thumbnailUrl ? [thumbnailUrl] : [],
     },
-  };
+  });
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
+export async function loader({ params }: Route.LoaderArgs) {
+  const project = getProjectBySlug(params.slug ?? "");
+  if (!project) {
+    throw new Response("Not Found", { status: 404 });
+  }
+  return null;
+}
+
+export default function Project({ params }: Route.ComponentProps) {
+  const project = getProjectBySlug(params.slug ?? "");
 
   if (!project) {
-    notFound();
+    throw new Response("Not Found", { status: 404 });
   }
 
-  // Get custom MDX components
-  const components = getMDXComponents({});
   const publishedDate = parseDate(project.frontmatter.date);
   const publishedIso = publishedDate?.toISOString();
   const publishedDateDisplay = publishedDate
@@ -96,8 +77,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   // Structured data for the article
   const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+    "@context": "https://schema.org",
+    "@type": "Article",
     headline: project.frontmatter.title,
     description: project.frontmatter.description,
     author: personSchema,
@@ -107,7 +88,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       ? getAbsoluteUrl(project.frontmatter.thumbnail)
       : undefined,
     publisher: personSchema,
-    keywords: project.frontmatter.tags.join(', '),
+    keywords: project.frontmatter.tags.join(", "),
   };
 
   return (
@@ -124,7 +105,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* Back Button */}
           <div className="mb-6 sm:mb-8">
             <Button variant="ghost" size="sm" asChild className="h-10">
-              <Link href="/projects">
+              <Link to="/projects">
                 <HugeiconsIcon
                   icon={ArrowLeft01Icon}
                   strokeWidth={2}
@@ -183,7 +164,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
           {/* MDX Content */}
           <div className="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none">
-            <MDXRemote source={project.content} components={components} />
+            <MDXProvider components={mdxComponents}>
+              {React.createElement(project.content)}
+            </MDXProvider>
           </div>
 
           {/* Footer CTA */}
@@ -196,9 +179,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </p>
               </div>
               <Button asChild className="w-full sm:w-auto h-12">
-                <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
+                <a href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
                   Book a Call
-                </Link>
+                </a>
               </Button>
             </div>
           </div>

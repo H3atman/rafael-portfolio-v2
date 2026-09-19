@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { GithubIcon, Linkedin01Icon } from "@hugeicons/core-free-icons";
-import Image from "next/image";
+import { Image } from "@/components/ui/image";
 
 export function Footer() {
   return (
@@ -25,7 +24,7 @@ export function Footer() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link
+          <a
             href="https://www.linkedin.com/in/villanueva-rafael/"
             target="_blank"
             rel="noopener noreferrer"
@@ -37,8 +36,8 @@ export function Footer() {
               className="w-5 h-5"
             />
             <span className="sr-only">LinkedIn</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href="https://github.com/H3atman"
             target="_blank"
             rel="noopener noreferrer"
@@ -50,7 +49,7 @@ export function Footer() {
               className="w-5 h-5"
             />
             <span className="sr-only">GitHub</span>
-          </Link>
+          </a>
         </div>
 
         <div className="text-sm text-muted-foreground text-center md:text-right">

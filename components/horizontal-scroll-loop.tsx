@@ -1,6 +1,5 @@
-'use client';
 
-import Image from 'next/image';
+import { Image } from '@/components/ui/image';
 
 export function HorizontalScrollLoop() {
   // List of logo images
@@ -53,7 +52,7 @@ export function HorizontalScrollLoop() {
           {logoElementsSet2}
         </div>
       </div>
-      <style jsx>{`
+      <style>{`
         @keyframes scroll {
           0% {
             transform: translateX(0);

@@ -1,11 +1,10 @@
-"use client"
 
 import * as React from "react"
-import Image, { ImageProps } from "next/image"
+import { Image, type ImageProps } from "@/components/ui/image"
 import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 
-interface ZoomableImageProps extends ImageProps {
+export interface ZoomableImageProps extends ImageProps {
     containerClassName?: string
 }
 

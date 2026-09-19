@@ -1,7 +1,6 @@
-"use client";
 
-import Link from "next/link";
-import Image from "next/image";
+import { Link } from "react-router";
+import { Image } from "@/components/ui/image";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -11,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon, Calendar01Icon } from "@hugeicons/core-free-icons";
-import { ProjectMeta } from "@/lib/mdx";
+import type { ProjectMeta } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -29,7 +28,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       : null;
 
   return (
-    <Link href={`/projects/${project.slug}`}>
+    <Link to={`/projects/${project.slug}`}>
       <Card
         className={cn(
           "overflow-hidden h-full flex flex-col hover:border-primary/50 transition-colors group cursor-pointer",

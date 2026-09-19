@@ -5,7 +5,7 @@
 
 export const siteConfig = {
   // Base URL (production domain)
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://rvcodes.com',
+  url: import.meta.env.NEXT_PUBLIC_SITE_URL || 'https://rvcodes.com',
 
   // Site Information
   name: 'Rafael | Operations Business Manager',

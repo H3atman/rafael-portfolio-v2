@@ -1,21 +1,22 @@
-import { Metadata } from "next";
-import Link from "next/link";
-import { getAllProjects } from "@/lib/mdx";
+import { Link } from "react-router";
+import { buildMeta } from "@/lib/meta";
+import { getAllProjects } from "@/lib/content";
 import { ProjectCard } from "@/components/project-card";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import type { Route } from "./+types/projects";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description:
-    "Case studies and projects showcasing expertise in system integration, business process automation, and data processing.",
-  alternates: {
+export function meta({}: Route.MetaArgs) {
+  return buildMeta({
+    title: "Projects",
+    description:
+      "Case studies and projects showcasing expertise in system integration, business process automation, and data processing.",
     canonical: "/projects",
-  },
-};
+  });
+}
 
-export default function ProjectsPage() {
+export default function Projects() {
   const projects = getAllProjects();
 
   return (
@@ -25,7 +26,7 @@ export default function ProjectsPage() {
         <div className="container mx-auto">
           <div className="mb-6 sm:mb-8">
             <Button variant="ghost" size="sm" asChild className="mb-3 sm:mb-4 h-10">
-              <Link href="/">
+              <Link to="/">
                 <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="w-4 h-4 mr-2" />
                 Back to Home
               </Link>

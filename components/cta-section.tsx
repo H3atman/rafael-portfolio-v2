@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Calendar01Icon, MailIcon } from "@hugeicons/core-free-icons";
@@ -23,14 +23,14 @@ export function CTASection() {
               className="w-full sm:w-auto h-12 px-8 text-base"
               asChild
             >
-              <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
+              <a href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
                 <HugeiconsIcon
                   icon={Calendar01Icon}
                   strokeWidth={2}
                   className="w-5 h-5 mr-2"
                 />
                 Book a Call
-              </Link>
+              </a>
             </Button>
             <Button
               size="lg"
@@ -38,7 +38,7 @@ export function CTASection() {
               className="w-full sm:w-auto h-12 px-8 text-base bg-background"
               asChild
             >
-              <Link href="mailto:rafael@rvcodes.com">
+              <Link to="mailto:rafael@rvcodes.com">
                 <HugeiconsIcon
                   icon={MailIcon}
                   strokeWidth={2}

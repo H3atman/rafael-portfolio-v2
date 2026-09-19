@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -43,14 +43,14 @@ export function Hero() {
             size="lg"
             className="w-full sm:w-auto h-12 px-8 text-base shadow-lg shadow-primary/20"
           >
-            <Link href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
+            <a href={config.bookingUrl} target="_blank" rel="noopener noreferrer">
               <HugeiconsIcon
                 icon={Calendar01Icon}
                 strokeWidth={2}
                 className="w-5 h-5 mr-2"
               />
               Book a Call
-            </Link>
+            </a>
           </Button>
           <Button
             asChild
@@ -58,7 +58,7 @@ export function Hero() {
             size="lg"
             className="w-full sm:w-auto h-12 px-8 text-base"
           >
-            <Link href="/projects">
+            <Link to="/projects">
               View Projects{" "}
               <HugeiconsIcon
                 icon={ArrowRight01Icon}

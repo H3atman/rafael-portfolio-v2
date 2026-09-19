@@ -11,5 +11,5 @@ export const config = {
    * Cal.com booking URL
    * Update this in .env.local to change the booking link across the entire application
    */
-  bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || "https://cal.com/PLACEHOLDER_CAL_LINK",
+  bookingUrl: import.meta.env.NEXT_PUBLIC_BOOKING_URL || "https://cal.com/PLACEHOLDER_CAL_LINK",
 } as const;

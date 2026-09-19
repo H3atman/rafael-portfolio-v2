@@ -1,4 +1,3 @@
-"use client"
 
 import * as React from "react"
 import { Moon02Icon, Sun01Icon } from "@hugeicons/core-free-icons"
@@ -11,6 +10,9 @@ export function ThemeToggle() {
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
+    // Deliberate hydration guard: render a placeholder until mounted so the
+    // theme-dependent icon doesn't mismatch what the server prerendered.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
   }, [])
 

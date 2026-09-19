@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { getRecentProjects } from "@/lib/mdx";
+import { getRecentProjects } from "@/lib/content";
 import { ProjectCard } from "@/components/project-card";
 
 export function RecentProjects() {
@@ -24,7 +24,7 @@ export function RecentProjects() {
           size="lg"
           className="hidden md:inline-flex group h-11 px-5 text-sm shadow-sm"
         >
-          <Link href="/projects">
+          <Link to="/projects">
             View All Projects{" "}
             <HugeiconsIcon
               icon={ArrowRight01Icon}
@@ -47,7 +47,7 @@ export function RecentProjects() {
           size="lg"
           className="w-full sm:w-auto h-12 px-5 text-sm shadow-sm"
         >
-          <Link href="/projects">
+          <Link to="/projects">
             View All Projects{" "}
             <HugeiconsIcon
               icon={ArrowRight01Icon}

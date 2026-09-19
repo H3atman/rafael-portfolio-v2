@@ -1,15 +1,14 @@
-"use client";
 
 import { ReactNode, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useLocation } from "react-router";
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 
-const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com";
+const POSTHOG_KEY = import.meta.env.NEXT_PUBLIC_POSTHOG_KEY;
+const POSTHOG_HOST = import.meta.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com";
 
 export function PostHogProvider({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
 
   useEffect(() => {
     if (!POSTHOG_KEY) return;

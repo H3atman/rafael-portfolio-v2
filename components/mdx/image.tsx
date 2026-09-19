@@ -1,4 +1,4 @@
-import { ImageProps } from "next/image";
+import type { ImageProps } from "@/components/ui/image";
 import { ZoomableImage } from "@/components/ui/zoomable-image";
 import { cn } from "@/lib/utils";
 
