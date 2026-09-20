@@ -12,6 +12,10 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!POSTHOG_KEY) return;
+    // This effect runs again whenever the provider remounts, and a second
+    // init() is a no-op that logs "[PostHog.js] You have already initialized
+    // PostHog!". __loaded is set by init(), so it tells us we already ran.
+    if (posthog.__loaded) return;
 
     posthog.init(POSTHOG_KEY, {
       api_host: POSTHOG_HOST,

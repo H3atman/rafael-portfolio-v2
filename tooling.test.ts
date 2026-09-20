@@ -49,6 +49,18 @@ describe("vercel deployment", () => {
     const vercel = JSON.parse(read("vercel.json"));
     expect(vercel.framework).toBe("react-router");
   });
+
+  // Without the `vercelPreset()` preset, `vercel build` falls back to a
+  // one-route manifest that only knows about the index route, so every other
+  // dynamic route (404s, /__manifest, /projects/:slug) 500s in production with
+  // FUNCTION_INVOCATION_FAILED. The preset comes from @vercel/react-router and
+  // lives at the /vite subpath, not the package root.
+  it("wires up vercelPreset() and declares @vercel/react-router", () => {
+    const config = read("react-router.config.ts");
+    expect(config).toContain('import { vercelPreset } from "@vercel/react-router/vite"');
+    expect(config).toContain("presets: [vercelPreset()],");
+    expect(pkg.devDependencies["@vercel/react-router"]).toBeDefined();
+  });
 });
 
 describe("script binaries", () => {

@@ -9,6 +9,7 @@ const eslintConfig = defineConfig([
     "node_modules/**",
     "build/**",
     ".react-router/**",
+    ".vercel/**",
     "scripts/**",
   ]),
   ...tseslint.configs.recommended,
