@@ -61,6 +61,18 @@ describe("vercel deployment", () => {
     expect(config).toContain("presets: [vercelPreset()],");
     expect(pkg.devDependencies["@vercel/react-router"]).toBeDefined();
   });
+
+  // posthog-js/react is a private subpackage: no "exports" map, no "type"
+  // field. Left external, Vite writes its raw "module" path into the server
+  // bundle as `import { PostHogProvider } from "posthog-js/react/dist/esm/
+  // index.js"`, and Node only reads that file as ESM through syntax
+  // detection. Where detection does not apply the file is CommonJS, the named
+  // import fails to link, and the lambda dies at load time — so every route
+  // that is not prerendered 500s with FUNCTION_INVOCATION_FAILED while the
+  // prerendered ones keep serving, which is what makes it easy to miss.
+  it("bundles posthog into the server build instead of externalizing it", () => {
+    expect(read("vite.config.ts")).toContain("ssr: { noExternal: [/^posthog-js/] },");
+  });
 });
 
 describe("script binaries", () => {
