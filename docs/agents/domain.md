@@ -1,51 +1,6 @@
-# Domain Docs
+# Domain docs
 
-How the engineering skills should consume this repo's domain documentation when exploring the codebase.
-
-This is a **single-context** repo: one `CONTEXT.md` and one `docs/adr/`, both at the root.
-
-## Before exploring, read these
-
-- **`CONTEXT.md`** at the repo root: the glossary of domain terms.
-- **`docs/adr/`**: read the ADRs that touch the area you're about to work in.
-
-If either doesn't exist, **proceed silently**. Don't flag its absence; don't suggest creating it
-upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and
-`/improve-codebase-architecture`) creates them lazily when terms or decisions actually get
-resolved.
-
-## File structure
-
-```
-/
-├── CONTEXT.md
-├── docs/adr/
-│   ├── 0001-some-decision.md
-│   └── 0002-another-decision.md
-├── app/
-├── components/
-├── content/
-└── lib/
-```
-
-If this repo ever splits into multiple bounded contexts, the layout changes to a root
-`CONTEXT-MAP.md` pointing at one `CONTEXT.md` per context, with context-scoped
-`<context>/docs/adr/` alongside the system-wide `docs/adr/`. Re-run
-`/setup-matt-pocock-skills` at that point.
-
-## Use the glossary's vocabulary
-
-When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a
-test name), use the term as defined in `CONTEXT.md`. Don't drift to synonyms the glossary
-explicitly avoids.
-
-If the concept you need isn't in the glossary yet, that's a signal: either you're inventing
-language the project doesn't use (reconsider) or there's a real gap (note it for
-`/domain-modeling`).
-
-## Flag ADR conflicts
-
-If your output contradicts an existing ADR, surface it explicitly rather than silently
-overriding:
-
-> _Contradicts ADR-0007 (prerender-only content index), but worth reopening because…_
+- **Layout**: Single context: root `GLOSSARY.md` and `docs/adr/`, matching the domain-modeling skill.
+- **Exploration**: Read the glossary and ADRs relevant to the area being explored when present. Missing files are normal: domain-modeling creates them lazily as terms or decisions resolve.
+- **Vocabulary**: Use glossary terms in issue titles, proposals, hypotheses, and test names. Surface genuine vocabulary gaps for domain-modeling.
+- **Decisions**: Identify conflicts with existing ADRs explicitly when proposing a different direction.
